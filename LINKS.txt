@@ -1,0 +1,11 @@
+https://wiki.debian.org/RepositoryFormat#Overview
+https://www.debian.org/doc/debian-policy/ch-controlfields.html
+
+https://www.debian.org/doc/manuals/debian-reference/ch02.en.html#_debian_package_management_internals
+
+https://pypi.python.org/pypi/python-debian
+/usr/share/doc/python-debian/README.deb822
+
+/usr/share/doc/python-apt/examples ?
+
+https://anonscm.debian.org/cgit/apt/apt.git/tree/
