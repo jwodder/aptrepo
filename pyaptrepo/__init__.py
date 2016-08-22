@@ -5,8 +5,7 @@ from .ppa       import PPA
 from .release   import ReleaseFile
 from .sources   import AptSource, parse_sources
 from .suite     import Suite
-from .util      import (dpkg_architecture, dpkg_foreign_architectures,
-                        for_json, package2dict)
+from .util      import dpkg_architecture, dpkg_foreign_architectures, for_json
 
 __all__ = [
     'AptSource',
@@ -21,6 +20,5 @@ __all__ = [
     'dpkg_architecture',
     'dpkg_foreign_architectures',
     'for_json',
-    'package2dict',
     'parse_sources',
 ]

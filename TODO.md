@@ -1,3 +1,5 @@
+- Rethink the name "pyaptrepo" (just "pyapt"?)
+
 Features
 --------
 - To support:
