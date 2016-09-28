@@ -1,5 +1,6 @@
 from debian     import deb822
-from .internals import massage_index, parse_contents
+from .index     import Index
+from .internals import parse_contents
 
 class Component:
     def __init__(self, suite, name):
@@ -43,10 +44,6 @@ class Component:
 
     def fetch_i18n_index(self):
         dex = self.suite.fetch_file(self.name + '/i18n/Index')
-        data = {
-            k.lower(): v for k,v in deb822.Deb822(dex).items()
-        }
-        massage_index(data)
-        return data
+        return Index.parse(dex)
 
     ### def fetch_release_file(self):  # Rethink name

@@ -71,26 +71,3 @@ def parse_contents(fp):
             area = about.pop() if about else None
             files[filename].append(ContentsPackage(area, section, name))
     return (header, files)
-
-def massage_index(index):
-    """
-    Given a `dict` with "md5sum", "sha1", etc. fields as would be found in a
-    Release file, combine the fields into a single "files" sub-`dict` that maps
-    filenames to sub-sub-`dict`s of sizes & checksums
-    """
-    files = {}
-    for field in ("md5sum", "sha1", "sha224", "sha256", "sha384", "sha512"):
-        hashlist = index.pop(field, '')
-        for line in hashlist.splitlines():
-            if line.strip() != '':
-                # Filenames will never contain spaces, right?
-                hashsum, size, filename = line.split()
-                size = int(size)
-                if filename in files:
-                    assert files[filename]["size"] == size
-                else:
-                    files[filename] = {"size": size}
-                if field == "md5sum":
-                    field = "md5"
-                files[filename][field] = hashsum.lower()
-    index["files"] = files

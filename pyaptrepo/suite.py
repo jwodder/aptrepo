@@ -21,7 +21,7 @@ class Suite:
         self.name = name
         self.release = release
         self.components = [
-            Component(self, c) for c in getattr(self.release, 'components', [])
+            Component(self, c) for c in self.release.fields.get('components',[])
         ]
 
     def __eq__(self, other):
@@ -33,11 +33,11 @@ class Suite:
 
     @property
     def architectures(self):
-        return getattr(self.release, 'architectures', [])
+        return self.release.fields.get('architectures', [])
 
     @property
     def acquire_by_hash(self):
-        return getattr(self.release, 'acquire_by_hash', False)
+        return self.release.fields.get('acquire_by_hash', False)
 
     @property
     def has_contents(self):

@@ -1,4 +1,7 @@
 - Rethink the name "pyaptrepo" (just "pyapt"?)
+- Write a setup.py file
+- Move all of the notes on the APT "protocol" to a GitHub wiki
+- Add docstrings
 
 Features
 --------
@@ -9,6 +12,7 @@ Features
     - verifying PGP signatures
     - downloading files to disk and using them as local caches (including
       support for Valid-Until in Release files)
+        - `.diff/Index` files
     - parsing the system's sources.list?
         - Use `apt_pkg.config` to get the locations of sources.list and
           sources.list.d
@@ -29,12 +33,18 @@ Features
 - Give PPA methods for fetching data from Launchpad (pubkey, supported Ubuntu
   releases?, etc.)
 - Add methods for actually downloading packages?
+    - Add a method/command for downloading the latest version of a given
+      package in a given repository/set of repositories?
 - Give `Suite.fetch_file` an argument for specifying what hash algorithms/the
   "minimum" hash algorithm to use
     - Make `copy_and_hash` use whatever hashes it's given instead of filtering
       out the non-SHA2 ones
 - Add a way to fetch a file without checking its hashes
 - Add logging
+- Add a `Contents` class with a `__getitem__` method
+- Allow accessing the elements of an `Index`'s `fields` via attribute access on
+  the `Index` object?
+    - This lookup should be case-insensitive and treat `_` as equivalent to `-`
 
 Coding & Technologies
 ---------------------
