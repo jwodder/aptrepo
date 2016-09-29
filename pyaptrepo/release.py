@@ -3,7 +3,7 @@ from .index      import Index
 
 class ReleaseFile(Index):
     @classmethod
-    def _parse(cls, obj):
+    def parse(cls, obj):
         rf = super().parse(obj)
         if 'components' in rf.fields:
             ### TODO: Remove extra directory paths from Components
