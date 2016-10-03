@@ -1,4 +1,3 @@
-- Rethink the name "pyaptrepo" (just "pyapt"? "aptrepo"?)
 - Write a setup.py file
 - Move all of the notes on the APT "protocol" to a GitHub wiki
 - Add docstrings

@@ -44,7 +44,7 @@ class Index:  ### Rename "IndexFile"?
                         files[filename] = {"size": size}
                     if f == "md5sum":
                         f = "md5"
-                    files[filename][f] = hashsum.lower()  ### Convert to bytes?
+                    files[filename][f] = hashsum.lower()
         return cls(files, fields)
 
     def __contains__(self, filename):

@@ -33,7 +33,7 @@ repo-spec :=
 import argparse
 import json
 from   prettytable import PrettyTable
-from   pyaptrepo   import Archive, PPA, dpkg_architecture, for_json
+from   aptrepo     import Archive, PPA, dpkg_architecture, for_json
 
 tblcols = ['Package', 'Version', 'Architecture', 'Description']
 
