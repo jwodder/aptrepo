@@ -5,7 +5,7 @@ from .internals  import SHA2, detach_signature
 
 ### cf. the `Release` class in `debian.deb822`
 
-class Index:
+class Index:  ### Rename "IndexFile"?
     def __init__(self, files, fields):
         ### Also include a(n optional?) `baseurl` parameter?
         self.files = files
@@ -60,3 +60,6 @@ class Index:
         # Rename to "secure_hashes"?
         about = self.files.get(filename, {})
         return {alg: about[alg] for alg in SHA2 if alg in about}
+
+    def for_json(self):
+        return vars(self)

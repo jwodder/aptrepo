@@ -1,10 +1,21 @@
+import bz2
+import gzip
+import lzma
 import re
 from   tempfile   import TemporaryFile
 from   bs4        import BeautifulSoup
 import requests
+from   .errors    import CannotFetchFileError
 from   .internals import copy_and_hash
 from   .release   import ReleaseFile
 from   .suite     import Suite
+
+DECOMPRESSORS = {
+    '.bz2': bz2.BZ2File,
+    '.gz': lambda fp: gzip.GzipFile(fileobj=fp),
+    '.lzma': lzma.LZMAFile,
+    '.xz': lzma.LZMAFile,
+}
 
 class Archive:
     def __init__(self, uri):
@@ -86,3 +97,43 @@ class Archive:
         zipped.seek(0)
         unzipped = decompressor(zipped)
         copy_and_hash(unzipped, fp, basepath, uncompressed_hashes)
+
+    def fetch_indexed_file(self, dirpath, basepath, index, extensions=None):
+        ### TODO: Add an option for disabling hash checks
+        if extensions is None:
+            extensions = [''] + list(DECOMPRESSORS.keys())
+        else:
+            extensions = [
+                ext for ext in extensions if ext in DECOMPRESSORS or ext == ''
+            ]
+        if not extensions:
+            raise ValueError('no supported file extensions specified')
+        # Any file should be checked at least once, either in compressed or
+        # uncompressed form, depending on which data is available.
+        # -- <https://wiki.debian.org/RepositoryFormat#MD5Sum.2C_SHA1.2C_SHA256>
+        baseurl = dirpath + '/' + basepath
+        clearsums = index.sha2hashes(basepath)
+        for ext in extensions:
+            if basepath + ext in index.files:
+                hashes = index.sha2hashes(basepath + ext)
+                if not clearsums and not hashes:
+                    continue
+                ### TODO: Support acquiring by hash
+                fp = TemporaryFile()
+                try:
+                    if ext in DECOMPRESSORS:
+                        self.fetch_compressed_file(
+                            baseurl + ext,
+                            fp,
+                            hashes,
+                            clearsums,
+                            DECOMPRESSORS[ext],
+                        )
+                    else:
+                        self.fetch_file(baseurl + ext, fp, hashes)
+                except requests.HTTPError:
+                    continue  ### Let some errors propagate?
+                fp.seek(0)
+                return fp
+        else:
+            raise CannotFetchFileError(basepath)

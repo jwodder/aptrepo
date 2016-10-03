@@ -1,4 +1,4 @@
-- Rethink the name "pyaptrepo" (just "pyapt"?)
+- Rethink the name "pyaptrepo" (just "pyapt"? "aptrepo"?)
 - Write a setup.py file
 - Move all of the notes on the APT "protocol" to a GitHub wiki
 - Add docstrings
@@ -59,6 +59,8 @@ Coding & Technologies
 - It seems that python-debian can be used to parse Release files (including
   handling the PGP signature in InRelease files) and handle compressed files;
   look into this
+- Read downloaded files into memory in their entirely instead of using
+  temporary files?
 
 Research
 --------
@@ -84,3 +86,4 @@ Research
       of indices in order to find out whether a file is available?
     - Do repositories always have nonempty Component fields in their Release
       files if & only if they are not flat?
+    - Look into APT's support for translation files in flat repositories
