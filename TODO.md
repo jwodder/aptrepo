@@ -43,6 +43,17 @@ Features
 - Allow accessing the elements of an `Index`'s `fields` via attribute access on
   the `Index` object?
     - This lookup should be case-insensitive and treat `_` as equivalent to `-`
+- Add commands for fetching:
+    - Contents files
+    - architectures supported by a suite/component?
+    - component release files?
+    - list of available translations
+- Give the commands support for repo-specs of the following forms:
+
+        <uri> <suite/>
+        '[deb[-src]] <uri> <suite/>'
+        '[deb[-src]] <uri> <suite> <component>'
+
 
 Coding & Technologies
 ---------------------

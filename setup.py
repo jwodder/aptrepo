@@ -28,6 +28,8 @@ setup(
 
     install_requires=[
         'beautifulsoup4>=4.4.0,<5',
+        # python-debian needs chardet, but it doesn't list it in its setup.py!
+        'chardet',
         'prettytable>=0.7.2,<1',
         'python-debian>=0.1.23',
         'requests>=2.2.0,<3',
@@ -52,8 +54,14 @@ setup(
         'Topic :: System :: Software Distribution',
     ],
 
-    #entry_points={
-    #    "console_scripts": [
-    #    ]
-    #},
+    entry_points={
+        "console_scripts": [
+            'aptrepo-components = aptrepo.commands.components:main',
+            'aptrepo-packages = aptrepo.commands.packages:main',
+            'aptrepo-release = aptrepo.commands.release:main',
+            'aptrepo-sources = aptrepo.commands.sources:main',
+            'aptrepo-suites = aptrepo.commands.suites:main',
+            'aptrepo-translation = aptrepo.commands.translation:main',
+        ]
+    },
 )
