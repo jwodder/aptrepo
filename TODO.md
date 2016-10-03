@@ -6,7 +6,6 @@
 Features
 --------
 - To support:
-    - package sources with only a suite, no components ("flat repositories")
     - `$(ARCH)` in suite specifications
     - getting a list of available translations from i18n/Index files
     - verifying PGP signatures

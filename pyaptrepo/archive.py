@@ -6,6 +6,7 @@ from   tempfile   import TemporaryFile
 from   bs4        import BeautifulSoup
 import requests
 from   .errors    import CannotFetchFileError
+from   .flat      import FlatRepository
 from   .internals import copy_and_hash
 from   .release   import ReleaseFile
 from   .suite     import Suite
@@ -60,12 +61,14 @@ class Archive:
                     yield suite
                     break
 
-    def fetch_suite(self, suite):
+    def fetch_suite(self, suite, flat=False):
         ### TODO: parameters for later:
-        ###           flat=False,
         ###           [something for PGP keys],
         ###           verify=True [for controlling whether to check signatures]
-        baseurl = self.uri + '/dists/' + suite
+        if flat:
+            baseurl = self.uri + '/' + suite
+        else:
+            baseurl = self.uri + '/dists/' + suite
         r = self.session.get(baseurl + '/InRelease')
         if not (400 <= r.status_code < 500):
             r.raise_for_status()
@@ -75,7 +78,10 @@ class Archive:
             r.raise_for_status()
             release = ReleaseFile.parse(r.text)
         ### TODO: Handle/fetch/verify PGP stuff
-        return Suite(self, suite, release)
+        if flat:
+            return FlatRepository(self, suite, release)
+        else:
+            return Suite(self, suite, release)
 
     def fetch_file(self, basepath, fp, hashes):
         # If `not hashes`, this method just assumes you know what you're doing

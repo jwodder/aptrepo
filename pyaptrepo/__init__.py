@@ -1,6 +1,7 @@
 from .archive   import Archive
 from .component import Component
 from .errors    import PyAPTError, HashMismatchError, CannotFetchFileError
+from .flat      import FlatRepository
 from .index     import Index
 from .ppa       import PPA
 from .release   import ReleaseFile
@@ -13,6 +14,7 @@ __all__ = [
     'Archive',
     'Component',
     'CannotFetchFileError',
+    'FlatRepository',
     'HashMismatchError',
     'Index',
     'PPA',
