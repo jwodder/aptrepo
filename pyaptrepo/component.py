@@ -31,7 +31,6 @@ class Component:
         ### the suite's Release
         fp = self.suite.fetch_indexed_file(
             self.name + '/i18n/Translation-' + lang,
-            extensions=('', '.bz2'),
         )
         return deb822.Packages.iter_paragraphs(fp)
 

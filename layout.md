@@ -43,6 +43,12 @@
                                 file, making `Index` files redundant (and some
                                 repositories thus no longer have them)
                         Translation-$LANG.bz2 - descriptions in $LANG
+                                              - The Debian wiki says these are
+                                                only ever compressed with
+                                                Bzip2, but some major sources
+                                                (including PPAs and the
+                                                official Xenial repo) compress
+                                                them with Gzip and XZ instead.
 
 File types:
 - `*.deb` — Debian packages
