@@ -1,4 +1,4 @@
-""" apt-repo translation <lang> <repo-spec> """
+""" Usage: aptrepo-translation <lang> <repo-spec> """
 
 import argparse
 import json

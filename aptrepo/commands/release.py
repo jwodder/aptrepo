@@ -1,7 +1,7 @@
 """
 Usage:
-    apt-repo release <uri> <suite>
-    apt-repo release [--distro DISTRO] <ppa>
+    aptrepo-release <uri> <suite>
+    aptrepo-release [--distro DISTRO] <ppa>
 """
 
 import argparse

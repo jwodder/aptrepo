@@ -1,4 +1,4 @@
-""" apt-repo sources <repo-spec> """
+""" Usage: aptrepo-sources <repo-spec> """
 
 import argparse
 import json

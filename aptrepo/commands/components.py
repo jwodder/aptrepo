@@ -1,7 +1,7 @@
 """
 Usage:
-    apt-repo components <uri> <suite>
-    apt-repo components [--distro DISTRO] <ppa>
+    aptrepo-components <uri> <suite>
+    aptrepo-components [--distro DISTRO] <ppa>
 """
 
 import argparse

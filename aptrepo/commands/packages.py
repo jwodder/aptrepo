@@ -1,4 +1,4 @@
-""" apt-repo packages [--arch ARCH] [--table] <repo-spec> """
+""" Usage: aptrepo-packages [--arch ARCH] [--table] <repo-spec> """
 
 import argparse
 import json

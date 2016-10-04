@@ -1,13 +1,15 @@
-""" apt-repo suites {<uri> | <ppa>} """
+""" Usage: aptrepo-suites {<uri> | <ppa>} """
 
-import argparse
-from   .common import get_archive
+import sys
+from   .. import Archive, PPA
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('repo', nargs='+')
-    args = parser.parse_args()
-    for suite in get_archive(args).scrape_suite_names():
+    if len(sys.argv) != 2:
+        sys.exit('Usage: %s {<uri> | <ppa>}' % (sys.argv[0],))
+    uri = sys.argv[1]
+    if uri.startswith("ppa:"):
+        uri = PPA(uri).uri
+    for suite in Archive(uri).scrape_suite_names():
          print(suite)
 
 if __name__ == '__main__':
