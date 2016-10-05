@@ -1,6 +1,5 @@
-- Move all of the notes on the APT "protocol" to a GitHub wiki
-- Add docstrings
 - Write a README
+- Add docstrings
 
 Features
 --------
@@ -61,6 +60,7 @@ Coding & Technologies
   sources.list entries?  (Downside: The API is terrible.)
 - Can the downloading of Release, Packages, etc. files (without modifying the
   system cache) be outsourced to python-apt?
+    - cf. `/usr/share/doc/python-apt/examples`?
 - Use `apt_pkg.TagFile` from python-apt to parse control files instead of
   python-debian?
 - Write my own control file parser, thereby completely eliminating the
@@ -74,12 +74,6 @@ Coding & Technologies
 Research
 --------
 - Double-check the format of `sources.list` entries with options
-
-- Look for the proper terms for the following concepts:
-    - an archive + suite + component + $SARCH combination — origin? source?
-      archive? repository?
-    - an archive + suite — suite? distribution? release? repository?
-    - base archive URL — repository?
 
 - Important unanswered questions about the repository format:
     - What is the purpose of Release files in `binary-$ARCH/` and `source/`
