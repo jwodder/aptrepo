@@ -36,7 +36,7 @@ setup(
     ],
 
     extras_require={
-        "libapt": ['python-apt']
+        "libapt": ['python-apt'],
     },
 
     classifiers=[
