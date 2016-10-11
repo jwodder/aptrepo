@@ -2,7 +2,8 @@
 
 import argparse
 import json
-from   ..      import for_json
+import sys
+from   ..      import FlatRepository, for_json
 from   .common import get_component
 
 def main():
@@ -11,8 +12,12 @@ def main():
     parser.add_argument('lang')
     parser.add_argument('repo', nargs='+')
     args = parser.parse_args()
-    for desc in get_component(args).fetch_translation(args.lang):
-        print(json.dumps(desc, default=for_json))
+    repo = get_component(args)
+    if isinstance(repo, FlatRepository):
+        sys.exit('Translations in flat repositories are not yet supported')
+    else:
+        for desc in repo.fetch_translation(args.lang):
+            print(json.dumps(desc, default=for_json))
 
 if __name__ == '__main__':
     main()

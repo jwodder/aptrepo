@@ -17,10 +17,6 @@ Features
     - .lz compression
     - acquiring by hash
 
-- Add a method for creating a Suite object that fetches its Release file only
-  when needed?
-- Add a method for creating a Suite object (or "DumbComponent" class?) without
-  fetching or ever bothering with the Release file?
 - Emit a warning if a set of hashes passed to a function contains only non-SHA2
   digests?
 - Give Component a method for converting to a sources.list entry or
@@ -29,16 +25,16 @@ Features
   translations
 - Give PPA methods for fetching data from Launchpad (pubkey, supported Ubuntu
   releases?, etc.)
-- Add methods for actually downloading packages?
+- Add methods for actually downloading packages
     - Add a method/command for downloading the latest version of a given
-      package in a given repository/set of repositories?
-- Give `Suite.fetch_file` an argument for specifying what hash algorithms/the
+      package in a given repository/set of repositories
+- Give `fetch_indexed_file` an argument for specifying what hash algorithms/the
   "minimum" hash algorithm to use
     - Make `copy_and_hash` use whatever hashes it's given instead of filtering
       out the non-SHA2 ones
 - Add a way to fetch a file without checking its hashes
 - Add logging
-- Add a `Contents` class with a `__getitem__` method
+- Add a `Contents` class with a `__getitem__` method?
 - Allow accessing the elements of an `Index`'s `fields` via attribute access on
   the `Index` object?
     - This lookup should be case-insensitive and treat `_` as equivalent to `-`
@@ -47,11 +43,6 @@ Features
     - architectures supported by a suite/component?
     - component release files?
     - list of available translations
-- Give the commands support for repo-specs of the following forms:
-
-        <uri> <suite/>
-        '[deb[-src]] <uri> <suite/>'
-        '[deb[-src]] <uri> <suite> <component>'
 
 
 Coding & Technologies

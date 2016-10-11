@@ -1,6 +1,7 @@
 """
 repo-spec :=
     <uri> <suite> <component>
+    <uri> <suite/>
     [--distro DISTRO] <ppa>
 """
 
@@ -22,7 +23,10 @@ def get_component(args):
         return PPA(args.repo[0]).repository(args.distro)
     elif getattr(args, 'distro', None) is not None:
         raise SystemExit('--distro can only be used with PPAs')
-    elif len(args.repo) != 3:
+    elif len(args.repo) == 2:
+        return Archive(args.repo[0]).fetch_suite(args.repo[1], flat=True)
+    elif len(args.repo) == 3:
+        return Archive(args.repo[0]).fetch_suite(args.repo[1])[args.repo[2]]
+    else:
         ### TODO: Improve:
         sys.exit('wrong number of arguments')
-    return Archive(args.repo[0]).fetch_suite(args.repo[1])[args.repo[2]]
