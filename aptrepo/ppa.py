@@ -13,7 +13,7 @@ class PPA:
                 self.owner = m.group(1)
                 self.name = m.group(2) or 'ppa'
             else:
-                raise ValueError('invalid PPA specifier: %r' % (ppa_spec,))
+                raise ValueError('invalid PPA specifier: {!r}'.format(ppa_spec))
         elif owner is not None and name is not None:
             self.owner = owner
             self.name = name
@@ -22,15 +22,18 @@ class PPA:
 
     @property
     def specifier(self):  ### Look for proper term
-        return 'ppa:%s/%s' % (self.owner, self.name)
+        ### Use this as __str__?
+        return 'ppa:{0.owner}/{0.name}'.format(self)
 
     @property
     def uri(self):
         ### Perform URL escaping?
-        return 'http://ppa.launchpad.net/%s/%s/ubuntu' % (self.owner, self.name)
+        return 'http://ppa.launchpad.net/{0.owner}/{0.name}/ubuntu'.format(self)
 
     def repository(self, distro=None):
         if distro is None:
             ### Use `lsb_release` (the command or the Python module) instead?
             distro = platform.linux_distribution()[2]
         return Archive(self.uri).fetch_suite(distro)['main']
+
+    ### TODO: Add __repr__ and __eq__ methods

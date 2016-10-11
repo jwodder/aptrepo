@@ -54,8 +54,9 @@ class Archive:
         ### TODO: Add a `flat=False` parameter
         for suite in self._scrape_suite_candidates():
             for fname in ('InRelease', 'Release'):
-                r = self.session.head('%s/dists/%s/%s'
-                                      % (self.uri, suite, fname))
+                r = self.session.head(
+                    '{}/dists/{}/{}'.format(self.uri, suite, fname)
+                )
                 if not (400 <= r.status_code < 500):
                     r.raise_for_status()
                     yield suite
@@ -63,7 +64,7 @@ class Archive:
 
     def fetch_suite(self, suite, flat=False):
         ### TODO: parameters for later:
-        ###           [something for PGP keys],
+        ###           trusted_keys=[list of PGP keys]
         ###           verify=True [for controlling whether to check signatures]
         if flat:
             baseurl = self.uri + '/' + suite

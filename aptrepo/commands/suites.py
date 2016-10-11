@@ -5,7 +5,7 @@ from   .. import Archive, PPA
 
 def main():
     if len(sys.argv) != 2:
-        sys.exit('Usage: %s {<uri> | <ppa>}' % (sys.argv[0],))
+        sys.exit('Usage: {} {{<uri> | <ppa>}}'.format(sys.argv[0]))
     uri = sys.argv[1]
     if uri.startswith("ppa:"):
         uri = PPA(uri).uri

@@ -43,6 +43,8 @@ Features
     - architectures supported by a suite/component?
     - component release files?
     - list of available translations
+- `aptrepo-release`: Support flat repositories
+- `aptrepo-suites`: Support searching for flat repositories
 
 
 Coding & Technologies

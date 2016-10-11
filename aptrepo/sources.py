@@ -21,4 +21,5 @@ def parse_sources(fp):
             yield AptSource(deb=deb, options=options, uri=words[0],
                             suite=words[1], components=words[2:])
         else:
-            raise ValueError('%r: could not parse source.list entry' % (line,))
+            raise ValueError('{!r}: could not parse sources.list entry'
+                             .format(line))
