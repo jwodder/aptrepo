@@ -1,11 +1,12 @@
-from functools   import reduce
-from operator    import add
-from debian      import deb822
-from .internals  import SHA2, detach_signature
+import collections.abc
+from   functools   import reduce
+from   operator    import add
+from   debian      import deb822
+from   .internals  import SHA2, detach_signature
 
 ### cf. the `Release` class in `debian.deb822`
 
-class Index:  ### Rename "IndexFile"?
+class Index(collections.abc.MutableMapping):  ### Rename "IndexFile"?
     def __init__(self, files, fields):
         ### Also include a(n optional?) `baseurl` parameter?
         self.files = files
@@ -47,14 +48,26 @@ class Index:  ### Rename "IndexFile"?
                     files[filename][f] = hashsum.lower()
         return cls(files, fields)
 
+    def __eq__(self, other):
+        return type(self) is type(other) and vars(self) == vars(other)
+
     def __contains__(self, filename):
         return filename in self.files
 
     def __getitem__(self, filename):
         return self.files[filename]
 
-    def __eq__(self, other):
-        return type(self) is type(other) and vars(self) == vars(other)
+    def __setitem__(self, key, value):
+        self.files[key] = value
+
+    def __delitem__(self, key):
+        del self.files[key]
+
+    def __iter__(self):
+        return iter(self.files)
+
+    def __len__(self):
+        return len(self.files)
 
     def sha2hashes(self, filename):
         # Rename to "secure_hashes"?

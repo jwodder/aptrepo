@@ -45,6 +45,8 @@ Features
     - list of available translations
 - `aptrepo-release`: Support flat repositories
 - `aptrepo-suites`: Support searching for flat repositories
+- If a hash mismatch occurs, continue trying to fetch the other compressed
+  forms of the same file and only raise an error if they all fail
 
 
 Coding & Technologies
@@ -63,6 +65,7 @@ Coding & Technologies
   look into this
 - Read downloaded files into memory in their entirely instead of using
   temporary files?
+- Give the classes `__repr__` methods
 
 Research
 --------

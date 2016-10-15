@@ -17,7 +17,7 @@ with open(join(dirname(__file__), 'aptrepo', '__init__.py')) as fp:
 setup(
     name='aptrepo',
     version=version,
-    packages=find_packages(include=['aptrepo*']),
+    packages=find_packages(include=['aptrepo', 'aptrepo.*']),
     license='MIT',
     author='John Thorvald Wodder II',
     author_email='aptrepo@varonathe.org',

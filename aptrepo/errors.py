@@ -19,5 +19,8 @@ class CannotFetchFileError(PyAPTError, ValueError):
             '{!r}: no secure checksums listed in index, or server returned 404'
             .format(filename)
         )
-        ### TODO: Distinguish between the various cases?
+        ### TODO: Distinguish between the various cases:
+        ### - no checksums of any kind in index
+        ### - no secure checksums in index
+        ### - all paths with secure checksums returned errors
         ### ("FileInaccessibleError" for 404 and 403?)
