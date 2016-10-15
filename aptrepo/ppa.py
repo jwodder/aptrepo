@@ -20,9 +20,7 @@ class PPA:
         else:
             raise TypeError('Constructor takes ppa_spec XOR owner & name')
 
-    @property
-    def specifier(self):  ### Look for proper term
-        ### Use this as __str__?
+    def __str__(self):
         return 'ppa:{0.owner}/{0.name}'.format(self)
 
     @property
