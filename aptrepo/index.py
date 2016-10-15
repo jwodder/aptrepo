@@ -35,14 +35,13 @@ class Index(collections.abc.MutableMapping):  ### Rename "IndexFile"?
             hashlist = fields.pop(f, '')
             for line in hashlist.splitlines():
                 if line.strip() != '':
-                    # Filenames will never contain spaces, right?
-                    hashsum, size, filename = line.split()
+                    hashsum, size, filename = line.strip().split(None, 2)
                     size = int(size)
-                    if filename in files:
-                        ### TODO: Raise a more descriptive error if this fails:
-                        assert files[filename]["size"] == size
-                    else:
+                    if filename not in files:
                         files[filename] = {"size": size}
+                    elif files[filename]["size"] != size:
+                        raise ValueError('{}: conflicting filesizes in index'
+                                         .format(filename))
                     if f == "md5sum":
                         f = "md5"
                     files[filename][f] = hashsum.lower()

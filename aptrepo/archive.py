@@ -66,6 +66,8 @@ class Archive:
         ### TODO: parameters for later:
         ###           trusted_keys=[list of PGP keys]
         ###           verify=True [for controlling whether to check signatures]
+        ### Alternatively, place the verification code in ReleaseFile or
+        ### Suite/FlatRepository as a `verify` method?
         if flat:
             baseurl = self.uri + '/' + suite
         else:
