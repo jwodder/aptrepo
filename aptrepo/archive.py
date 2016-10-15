@@ -75,11 +75,11 @@ class Archive:
         r = self.session.get(baseurl + '/InRelease')
         if not (400 <= r.status_code < 500):
             r.raise_for_status()
-            release = ReleaseFile.parse_signed(r.text)
+            release = ReleaseFile.parse_signed(r.content)
         else:
             r = self.session.get(baseurl + '/Release')
             r.raise_for_status()
-            release = ReleaseFile.parse(r.text)
+            release = ReleaseFile.parse(r.content)
         ### TODO: Handle/fetch/verify PGP stuff
         if flat:
             return FlatRepository(self, suite, release)
