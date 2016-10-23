@@ -1,8 +1,8 @@
 import collections.abc
-from   functools   import reduce
-from   operator    import add
-from   debian      import deb822
-from   .internals  import SHA2, detach_signature
+from   functools     import reduce
+from   operator      import add
+from   debian.deb822 import Deb822
+from   .internals    import SHA2, detach_signature
 
 ### cf. the `Release` class in `debian.deb822`
 
@@ -28,7 +28,7 @@ class Index(collections.abc.MutableMapping):  ### Rename "IndexFile"?
         # `obj` can be anything accepted by Deb822: `str`, `bytes`, or a
         # sequence of lines (including file-like objects)
         fields = {
-            k.lower(): v for k,v in deb822.Deb822(obj).items()
+            k.lower(): v for k,v in Deb822(obj).items()
         }
         files = {}
         for f in ("md5sum", "sha1", "sha224", "sha256", "sha384", "sha512"):

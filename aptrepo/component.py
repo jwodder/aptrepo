@@ -1,6 +1,6 @@
-from debian     import deb822
-from .index     import Index
-from .internals import parse_contents
+from debian.deb822 import Packages, Sources
+from .index        import Index
+from .internals    import parse_contents
 
 class Component:
     def __init__(self, suite, name):
@@ -16,11 +16,11 @@ class Component:
         fp = self.suite.fetch_indexed_file(
             self.name + '/binary-' + arch + '/Packages'
         )
-        return deb822.Packages.iter_paragraphs(fp)
+        return Packages.iter_paragraphs(fp)
 
     def fetch_sources(self):
         fp = self.suite.fetch_indexed_file(self.name + '/source/Sources')
-        return deb822.Sources.iter_paragraphs(fp)
+        return Sources.iter_paragraphs(fp)
 
     def fetch_i18n_index(self):
         dex = self.suite.fetch_indexed_file(self.name + '/i18n/Index')
@@ -32,7 +32,7 @@ class Component:
         fp = self.suite.fetch_indexed_file(
             self.name + '/i18n/Translation-' + lang,
         )
-        return deb822.Packages.iter_paragraphs(fp)
+        return Packages.iter_paragraphs(fp)
 
     @property
     def has_contents(self):

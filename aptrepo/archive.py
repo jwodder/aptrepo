@@ -24,7 +24,11 @@ class Archive:
         self.session = requests.Session()
 
     def __repr__(self):
-        return '{}(uri={!r})'.format(self.__class__.__name__, self.uri)
+        return '{}.{}(uri={!r})'.format(
+            __package__,
+            self.__class__.__name__,
+            self.uri,
+        )
 
     def _scrape_suite_candidates(self):
         ### TODO: Add a `flat=False` parameter

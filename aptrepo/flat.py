@@ -1,4 +1,4 @@
-from debian import deb822
+from debian.deb822 import Packages, Sources
 
 class FlatRepository:
     def __init__(self, archive, name, release):
@@ -16,11 +16,11 @@ class FlatRepository:
 
     def fetch_packages(self):
         fp = self.fetch_indexed_file('Packages')
-        return deb822.Packages.iter_paragraphs(fp)
+        return Packages.iter_paragraphs(fp)
 
     def fetch_sources(self):
         fp = self.fetch_indexed_file('Sources')
-        return deb822.Sources.iter_paragraphs(fp)
+        return Sources.iter_paragraphs(fp)
 
     @property
     def architectures(self):

@@ -51,8 +51,6 @@ Features
 
 Coding & Technologies
 ---------------------
-- Use `aptsources.sourceslist.SourceEntry` from python-apt for parsing
-  sources.list entries?  (Downside: The API is terrible.)
 - Can the downloading of Release, Packages, etc. files (without modifying the
   system cache) be outsourced to python-apt?
     - cf. `/usr/share/doc/python-apt/examples`?
@@ -65,7 +63,7 @@ Coding & Technologies
   look into this
 - Read downloaded files into memory in their entirely instead of using
   temporary files?
-- Give the classes `__repr__` methods
+- Give all of the classes `__repr__` (and `__eq__`?) methods
 
 Research
 --------
