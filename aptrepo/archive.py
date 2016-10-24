@@ -7,7 +7,7 @@ from   bs4        import BeautifulSoup
 import requests
 from   .errors    import CannotFetchFileError
 from   .flat      import FlatRepository
-from   .internals import copy_and_hash
+from   .internals import copy_and_hash, joinurl
 from   .release   import ReleaseFile
 from   .suite     import Suite
 
@@ -32,7 +32,7 @@ class Archive:
 
     def _scrape_suite_candidates(self):
         ### TODO: Add a `flat=False` parameter
-        r = self.session.get(self.uri + '/dists/')
+        r = self.session.get(joinurl(self.uri, 'dists', ''))
         r.raise_for_status()
         if 'charset' in r.headers.get('content-type', '').lower():
             enc = r.encoding
@@ -58,9 +58,7 @@ class Archive:
         ### TODO: Add a `flat=False` parameter
         for suite in self._scrape_suite_candidates():
             for fname in ('InRelease', 'Release'):
-                r = self.session.head(
-                    '{}/dists/{}/{}'.format(self.uri, suite, fname)
-                )
+                r = self.session.head(joinurl(self.uri, 'dists', suite, fname))
                 if not (400 <= r.status_code < 500):
                     r.raise_for_status()
                     yield suite
@@ -73,15 +71,15 @@ class Archive:
         ### Alternatively, place the verification code in ReleaseFile or
         ### Suite/FlatRepository as a `verify` method?
         if flat:
-            baseurl = self.uri + '/' + suite
+            baseurl = joinurl(self.uri, suite)
         else:
-            baseurl = self.uri + '/dists/' + suite
-        r = self.session.get(baseurl + '/InRelease')
+            baseurl = joinurl(self.uri, 'dists', suite)
+        r = self.session.get(joinurl(baseurl, 'InRelease'))
         if not (400 <= r.status_code < 500):
             r.raise_for_status()
             release = ReleaseFile.parse_signed(r.content)
         else:
-            r = self.session.get(baseurl + '/Release')
+            r = self.session.get(joinurl(baseurl, 'Release'))
             r.raise_for_status()
             release = ReleaseFile.parse(r.content)
         ### TODO: Handle/fetch/verify PGP stuff
@@ -94,7 +92,7 @@ class Archive:
         # If `not hashes`, this method just assumes you know what you're doing
         # and doesn't complain.
         if basepath.startswith('/'):
-            path = self.uri + basepath
+            path = joinurl(self.uri, basepath)
         else:
             path = basepath
         r = self.session.get(path, stream=True)
@@ -124,7 +122,7 @@ class Archive:
         # Any file should be checked at least once, either in compressed or
         # uncompressed form, depending on which data is available.
         # -- <https://wiki.debian.org/RepositoryFormat#MD5Sum.2C_SHA1.2C_SHA256>
-        baseurl = dirpath + '/' + basepath
+        baseurl = joinurl(dirpath, basepath)
         clearsums = index.sha2hashes(basepath)
         for ext in extensions:
             if basepath + ext in index.files:

@@ -71,3 +71,8 @@ def parse_contents(fp):
             area = about.pop() if about else None
             files[filename].append(ContentsPackage(area, section, name))
     return (header, files)
+
+def joinurl(url, *paths):
+    if not url.endswith('/'):
+        url += '/'
+    return url + '/'.join(p.strip('/') for p in paths)
