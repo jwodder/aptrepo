@@ -30,9 +30,12 @@ class Archive:
             self.uri,
         )
 
-    def _scrape_suite_candidates(self):
+    def _scrape_suite_candidates(self, subdir=None):
         ### TODO: Add a `flat=False` parameter
-        r = self.session.get(joinurl(self.uri, 'dists', ''))
+        if subdir is None:
+            r = self.session.get(joinurl(self.uri, 'dists', ''))
+        else:
+            r = self.session.get(joinurl(self.uri, 'dists', subdir, ''))
         r.raise_for_status()
         if 'charset' in r.headers.get('content-type', '').lower():
             enc = r.encoding
@@ -43,20 +46,23 @@ class Archive:
             ### TODO: Try to find a better pattern
             m = re.match(r'^(?:\./)*([\w.-]+)/?$', link.attrs.get('href'))
             if m:
-                yield m.group(1)
+                if subdir is None:
+                    yield m.group(1)
+                else:
+                    yield joinurl(subdir, m.group(1))
 
-    def scrape_suites(self):
+    def scrape_suites(self, subdir=None):
         ### TODO: Add a `flat=False` parameter
-        for suite in self._scrape_suite_candidates():
+        for suite in self._scrape_suite_candidates(subdir=subdir):
             try:
                 yield self.fetch_suite(suite)
             except requests.HTTPError as e:
                 if not (400 <= e.response.status_code < 500):
                     raise
 
-    def scrape_suite_names(self):
+    def scrape_suite_names(self, subdir=None):
         ### TODO: Add a `flat=False` parameter
-        for suite in self._scrape_suite_candidates():
+        for suite in self._scrape_suite_candidates(subdir=subdir):
             for fname in ('InRelease', 'Release'):
                 r = self.session.head(joinurl(self.uri, 'dists', suite, fname))
                 if not (400 <= r.status_code < 500):
