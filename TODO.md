@@ -47,7 +47,6 @@ Features
     - architectures supported by a suite/component?
     - component release files?
     - list of available translations
-- `aptrepo-release`: Support flat repositories
 - `aptrepo-suites`: Support searching for flat repositories
 - If a hash mismatch occurs, continue trying to fetch the other compressed
   forms of the same file and only raise an error if they all fail
