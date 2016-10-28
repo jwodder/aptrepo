@@ -1,9 +1,5 @@
 - Write a README
 - Add docstrings
-- Make `Archive.fetch_suite` determine flatness based on whether the suite name
-  ends with a slash, not via a keyword argument
-- Make the CLI only recognize flat repositories as such if the suite name ends
-  with a slash
 
 Features
 --------

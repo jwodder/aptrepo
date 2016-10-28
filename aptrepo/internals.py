@@ -27,6 +27,8 @@ def copy_and_hash(fpin, fpout, filename, hashes, chunk_size=2048):
             if hashes[alg] != check:
                 raise HashMismatchError(filename, alg, hashes[alg], check)
     else:
+        # TODO: Use `iter_content` in order to handle gzipped/deflated content
+        # transfer encodings.
         shutil.copyfileobj(fpin, fpout)
 
 def detach_signature(txt):

@@ -1,6 +1,7 @@
 """
 Usage:
     aptrepo-release <uri> <suite>
+    aptrepo-release <uri> <suite/>
     aptrepo-release [--distro DISTRO] <ppa>
 """
 

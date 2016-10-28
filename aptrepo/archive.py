@@ -70,12 +70,13 @@ class Archive:
                     yield suite
                     break
 
-    def fetch_suite(self, suite, flat=False):
+    def fetch_suite(self, suite):
         ### TODO: parameters for later:
         ###           trusted_keys=[list of PGP keys]
         ###           verify=True [for controlling whether to check signatures]
         ### Alternatively, place the verification code in ReleaseFile or
         ### Suite/FlatRepository as a `verify` method?
+        flat = suite.endswith('/')
         if flat:
             baseurl = joinurl(self.uri, suite)
         else:
