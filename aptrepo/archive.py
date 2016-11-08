@@ -65,8 +65,12 @@ class Archive:
 
     def scrape_suite_names(self, subdir=None, flat=False):
         for suite in self._scrape_suite_candidates(subdir=subdir, flat=flat):
+            if flat:
+                sdir = joinurl(self.uri, suite)
+            else:
+                sdir = joinurl(self.uri, 'dists', suite)
             for fname in ('InRelease', 'Release'):
-                r = self.session.head(joinurl(self.uri, 'dists', suite, fname))
+                r = self.session.head(joinurl(sdir, fname))
                 if not (400 <= r.status_code < 500):
                     r.raise_for_status()
                     yield suite
