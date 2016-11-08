@@ -69,7 +69,7 @@ class Index(collections.abc.MutableMapping):  ### Rename "IndexFile"?
         return len(self.files)
 
     def sha2hashes(self, filename):
-        # Rename to "secure_hashes"?
+        ### Rename to "secure_hashes"?
         about = self.files.get(filename, {})
         return {alg: about[alg] for alg in SHA2 if alg in about}
 
