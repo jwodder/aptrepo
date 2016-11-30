@@ -1,6 +1,7 @@
 import platform
 import re
-from   .archive import Archive
+from   .archive   import Archive
+from   .internals import simple_repr
 
 class PPA:
     def __init__(self, ppa_spec=None, owner=None, name=None):
@@ -23,9 +24,12 @@ class PPA:
     def __str__(self):
         return 'ppa:{0.owner}/{0.name}'.format(self)
 
+    def __repr__(self):
+        return simple_repr(self)
+
     @property
     def uri(self):
-        ### Perform URL escaping?
+        ### TODO: Perform URL escaping?
         return 'http://ppa.launchpad.net/{0.owner}/{0.name}/ubuntu'.format(self)
 
     def repository(self, distro=None):
@@ -34,4 +38,4 @@ class PPA:
             distro = platform.linux_distribution()[2]
         return Archive(self.uri).fetch_suite(distro)['main']
 
-    ### TODO: Add __repr__ and __eq__ methods
+    ### TODO: Add __eq__ method

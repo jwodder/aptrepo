@@ -1,10 +1,14 @@
 from debian.deb822 import Packages, Sources
+from .internals    import simple_repr
 
 class FlatRepository:
     def __init__(self, archive, name, release):
         self.archive = archive
         self.name = name
         self.release = release
+
+    def __repr__(self):
+        return simple_repr(self)
 
     def fetch_indexed_file(self, basepath, extensions=None):
         return self.archive.fetch_indexed_file(

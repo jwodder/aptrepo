@@ -52,7 +52,6 @@ Features
     - Add a method/command for downloading the latest version of a given
       package in a given repository/set of repositories
 - Add logging
-- Add a `Contents` class with a `__getitem__` method?
 - Allow accessing the elements of an `Index`'s `fields` via attribute access on
   the `Index` object?
     - This lookup should be case-insensitive and treat `_` as equivalent to `-`
@@ -61,6 +60,9 @@ Features
     - architectures supported by a suite/component?
     - component release files?
     - list of available translations
+- Support repositories like Chef's that name the "Components" field in Release
+  files "Component"
+- Make the unparsed fields of `ReleaseFile`s available somewhere?
 
 
 Coding & Technologies
@@ -70,16 +72,14 @@ Coding & Technologies
     - cf. `/usr/share/doc/python-apt/examples`?
 - Use `apt_pkg.TagFile` from python-apt to parse control files instead of
   python-debian?
-- Write my own control file parser, thereby completely eliminating the
-  dependency on python-debian?
 - It seems that python-debian can be used to parse Release files (including
   handling the PGP signature in InRelease files) and handle compressed files;
   look into this
-- Read downloaded files into memory in their entirely instead of using
+- Read downloaded files into memory in their entirety instead of using
   temporary files?
     - No.  Uncompressed Packages files can be as large as 43 MB, and
       uncompressed Contents files can reach 1 GB.
-- Give all of the classes `__repr__` (and `__eq__`?) methods
+- Give all of the classes `__eq__` methods
 - Use `requests-toolbelt` <https://toolbelt.readthedocs.io> to:
     - rewrite `copy_and_hash` (for reading HTTP responses, at least)
         - <https://toolbelt.readthedocs.io/en/latest/downloadutils.html#requests_toolbelt.downloadutils.tee.tee>

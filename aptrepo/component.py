@@ -1,12 +1,15 @@
 from debian.deb822 import Packages, Sources
 from .index        import Index
-from .internals    import parse_contents, joinurl
+from .internals    import parse_contents, joinurl, simple_repr
 
 class Component:
     def __init__(self, suite, name):
         # not for public construction
         self.suite = suite
         self.name = name
+
+    def __repr__(self):
+        return simple_repr(self)
 
     @property
     def archive(self):

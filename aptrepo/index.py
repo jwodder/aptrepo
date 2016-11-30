@@ -2,7 +2,7 @@ import collections.abc
 from   functools     import reduce
 from   operator      import add
 from   debian.deb822 import Deb822
-from   .internals    import SHA2, detach_signature
+from   .internals    import SHA2, detach_signature, simple_repr
 
 ### cf. the `Release` class in `debian.deb822`
 
@@ -46,6 +46,9 @@ class Index(collections.abc.MutableMapping):  ### Rename "IndexFile"?
                         f = "md5"
                     files[filename][f] = hashsum.lower()
         return cls(files, fields)
+
+    def __repr__(self):
+        return simple_repr(self)
 
     def __eq__(self, other):
         return type(self) is type(other) and vars(self) == vars(other)

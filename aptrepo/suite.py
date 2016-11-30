@@ -1,5 +1,5 @@
 from   .component import Component
-from   .internals import parse_contents
+from   .internals import parse_contents, simple_repr
 
 class Suite:
     def __init__(self, archive, name, release):
@@ -10,6 +10,9 @@ class Suite:
         self.components = [
             Component(self, c) for c in self.release.fields.get('components',[])
         ]
+
+    def __repr__(self):
+        return simple_repr(self)
 
     def __eq__(self, other):
         # for use in detecting suite synonyms/symlinks
