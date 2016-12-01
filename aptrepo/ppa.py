@@ -27,6 +27,11 @@ class PPA:
     def __repr__(self):
         return simple_repr(self)
 
+    def __eq__(self, other):
+        return type(self) is type(other) and \
+            self.owner == other.owner and \
+            self.name == other.name
+
     @property
     def uri(self):
         ### TODO: Perform URL escaping?
@@ -37,5 +42,3 @@ class PPA:
             ### Use `lsb_release` (the command or the Python module) instead?
             distro = platform.linux_distribution()[2]
         return Archive(self.uri).fetch_suite(distro)['main']
-
-    ### TODO: Add __eq__ method

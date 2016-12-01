@@ -79,7 +79,6 @@ Coding & Technologies
   temporary files?
     - No.  Uncompressed Packages files can be as large as 43 MB, and
       uncompressed Contents files can reach 1 GB.
-- Give all of the classes `__eq__` methods
 - Use `requests-toolbelt` <https://toolbelt.readthedocs.io> to:
     - rewrite `copy_and_hash` (for reading HTTP responses, at least)
         - <https://toolbelt.readthedocs.io/en/latest/downloadutils.html#requests_toolbelt.downloadutils.tee.tee>

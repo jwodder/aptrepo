@@ -11,6 +11,11 @@ class Component:
     def __repr__(self):
         return simple_repr(self)
 
+    def __eq__(self, other):
+        return type(self) is type(other) and \
+            self.suite == other.suite and \
+            self.name == other.name
+
     @property
     def archive(self):
         return self.suite.archive

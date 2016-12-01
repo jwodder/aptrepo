@@ -30,6 +30,9 @@ class Archive:
             self.uri,
         )
 
+    def __eq__(self, other):
+        return type(self) is type(other) and self.uri == other.uri
+
     def _scrape_suite_candidates(self, subdir=None, flat=False):
         path = self.uri
         if not flat:

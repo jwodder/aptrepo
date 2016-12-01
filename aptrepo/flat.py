@@ -10,6 +10,10 @@ class FlatRepository:
     def __repr__(self):
         return simple_repr(self)
 
+    def __eq__(self, other):
+        # for use in detecting suite synonyms/symlinks
+        return type(self) is type(other) and self.release == other.release
+
     def fetch_indexed_file(self, basepath, extensions=None):
         return self.archive.fetch_indexed_file(
             '/' + self.name,
@@ -34,7 +38,3 @@ class FlatRepository:
     def acquire_by_hash(self):
         ### Do flat repositories even support Acquire By Hash?
         return self.release.fields.get('acquire-by-hash', False)
-
-    def __eq__(self, other):
-        # for use in detecting suite synonyms/symlinks
-        return type(self) is type(other) and self.release == other.release
