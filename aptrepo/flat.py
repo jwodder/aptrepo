@@ -36,5 +36,5 @@ class FlatRepository:
 
     @property
     def acquire_by_hash(self):
-        ### Do flat repositories even support Acquire By Hash?
+        ### TODO: Do flat repositories even support Acquire By Hash?
         return self.release.fields.get('acquire-by-hash', False)

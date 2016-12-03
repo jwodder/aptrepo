@@ -40,7 +40,7 @@ class Suite:
     def fetch_contents(self, sarch):
         contents = self.fetch_indexed_file(
             'Contents-' + sarch,
-            extensions=('.gz',),  ### Include '' in extensions?
+            extensions=('.gz',),  ### TODO: Include '' in extensions?
         )
         return parse_contents(contents)
 

@@ -56,8 +56,8 @@ class Component:
         # Raises an error if the Contents files are at Suite level
         contents = self.suite.fetch_indexed_file(
             joinurl(self.name, 'Contents-' + sarch),
-            extensions=('.gz',),  ### Include '' in extensions?
+            extensions=('.gz',),  ### TODO: Include '' in extensions?
         )
         return parse_contents(contents)
 
-    ### def fetch_release_file(self):  # Rethink name
+    ### TODO: def fetch_release_file(self):  # Rethink name

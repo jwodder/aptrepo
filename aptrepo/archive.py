@@ -80,11 +80,6 @@ class Archive:
                     break
 
     def fetch_suite(self, suite):
-        ### TODO: parameters for later:
-        ###           trusted_keys=[list of PGP keys]
-        ###           verify=True [for controlling whether to check signatures]
-        ### Alternatively, place the verification code in ReleaseFile or
-        ### Suite/FlatRepository as a `verify` method?
         flat = suite.endswith('/')
         if flat:
             baseurl = joinurl(self.uri, suite)
@@ -145,7 +140,6 @@ class Archive:
                 hashes = index.sha2hashes(basepath + ext)
                 if not clearsums and not hashes:
                     continue
-                ### TODO: Support acquiring by hash
                 fp = TemporaryFile()
                 try:
                     if ext in DECOMPRESSORS:
@@ -159,7 +153,7 @@ class Archive:
                     else:
                         self.fetch_file(baseurl + ext, fp, hashes)
                 except requests.HTTPError:
-                    continue  ### Let some errors propagate?
+                    continue
                 fp.seek(0)
                 return fp
         else:

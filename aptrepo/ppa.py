@@ -39,6 +39,7 @@ class PPA:
 
     def repository(self, distro=None):
         if distro is None:
-            ### Use `lsb_release` (the command or the Python module) instead?
+            ### TODO: Use `lsb_release` (the command or the Python module)
+            ### instead?
             distro = platform.linux_distribution()[2]
         return Archive(self.uri).fetch_suite(distro)['main']

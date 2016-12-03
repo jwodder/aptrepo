@@ -4,11 +4,8 @@ from   operator      import add
 from   debian.deb822 import Deb822
 from   .internals    import SHA2, detach_signature, simple_repr
 
-### cf. the `Release` class in `debian.deb822`
-
-class Index(collections.abc.MutableMapping):  ### Rename "IndexFile"?
+class Index(collections.abc.MutableMapping):
     def __init__(self, files, fields):
-        ### Also include a(n optional?) `baseurl` parameter?
         self.files = files
         self.fields = fields
 
@@ -72,7 +69,7 @@ class Index(collections.abc.MutableMapping):  ### Rename "IndexFile"?
         return len(self.files)
 
     def sha2hashes(self, filename):
-        ### Rename to "secure_hashes"?
+        ### TODO: Rename to "secure_hashes"?
         about = self.files.get(filename, {})
         return {alg: about[alg] for alg in SHA2 if alg in about}
 

@@ -20,7 +20,7 @@ def for_json(obj):
         # This includes all types in debian.deb822.
         return dict(obj)
     elif isinstance(obj, (collections.Iterator, tuple, set, frozenset)):
-        ### Sort sets and frozensets?
+        ### TODO: Sort sets and frozensets?
         return list(obj)
     else:
         try:

@@ -7,18 +7,25 @@ Features
     - `$(ARCH)` in suite specifications
     - getting a list of available translations from i18n/Index files
     - verifying PGP signatures
-        - Possible API:
-            - Give `Archive` and `Suite`/`FlatRepository` a `trusted_keys`
-              attribute; the latter "inherit" their attribute values from the
-              former
-                - When `trusted_keys` is not defined, calls to `verify` use the
-                  system keyring in `/etc/apt`
-            - Give `Suite`/`FlatRepository` (and/or `ReleaseFile`?) a
-              `verify(trusted_keys=self.trusted_keys)` method
-            - Give `Archive` an `auto_verify=BOOL` attribute that determines
-              whether `verify` is automatically called after fetching
-              Release/InRelease files
-            - Rename `fetch_suite` to `__getitem__`
+        - Give `Archive` and `Suite`/`FlatRepository` a `trusted_keys` (a list
+          of PGP keys) attribute; the latter "inherit" their attribute values
+          from the former
+            - When `trusted_keys` is not defined, calls to `verify` use the
+              system keyring in `/etc/apt`
+        - Give `Suite`/`FlatRepository` (and/or `ReleaseFile`?) a
+          `verify(trusted_keys=self.trusted_keys)` method
+        - Change `Archive.fetch_suite`:
+            - Option 1: Give `Archive.fetch_suite` `verify=BOOL` (default
+              `True`?) and `trusted_keys=self.trusted_keys` parameters for
+              specifying whether to call `verify` immediately after fetching
+              the Release/InRelease file and optionally overriding the
+              Archive's trusted keys
+                - Also give `Archive` an `auto_verify` field for use as the
+                  default value of `fetch_suite(verify=*)`?
+            - Option 2: Rename `Archive.fetch_suite` to `__getitem__` and give
+              `Archive` an `auto_verify=BOOL` attribute that determines whether
+              `verify` is automatically called after fetching Release/InRelease
+              files
     - downloading files to disk and using them as local caches (including
       support for Valid-Until in Release files)
         - `.diff/Index` files
@@ -86,6 +93,14 @@ Coding & Technologies
     - automatically prepend the base URI to requests
         - <https://toolbelt.readthedocs.io/en/latest/sessions.html>
     - set the User Agent
+- Split `CannotFetchFileError` into separate classes for the following cases:
+    - no secure checksums in index
+    - no checksums of any kind in index
+    - all paths with secure checksums returned errors ("FileInaccessibleError"
+      for 404 and 403?)
+- Rename `Index` to `IndexFile`?
+- Give `Index` a(n optional?) `baseurl` parameter?
+- Define classes with [`attrs`](https://attrs.readthedocs.io)?
 
 Research
 --------

@@ -27,8 +27,8 @@ def copy_and_hash(fpin, fpout, filename, hashes, chunk_size=2048):
             if hashes[alg] != check:
                 raise HashMismatchError(filename, alg, hashes[alg], check)
     else:
-        # TODO: Use `iter_content` in order to handle gzipped/deflated content
-        # transfer encodings.
+        ### TODO: Use `iter_content` in order to handle gzipped/deflated
+        ### content transfer encodings.
         shutil.copyfileobj(fpin, fpout)
 
 def detach_signature(txt):
@@ -44,7 +44,7 @@ def detach_signature(txt):
                  r'-----END PGP SIGNATURE-----\s*$',
                  re.sub(r'\r\n?', '\n', txt), flags=re.S)
     if m:
-        ### Also return the armor headers?
+        ### TODO: Also return the armor headers?
         return (re.sub('^- ', '', m.group(1), flags=re.M).replace('\n', '\r\n'),
                 m.group(2))
     else:
