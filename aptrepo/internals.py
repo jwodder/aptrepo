@@ -5,10 +5,12 @@ import shutil
 import requests
 from   .errors     import HashMismatchError
 
-SHA2 = ("sha224", "sha256", "sha384", "sha512")
+SECURE_HASHES = ("sha224", "sha256", "sha384", "sha512")  # SHA-2
 
 def copy_and_hash(fpin, fpout, filename, hashes, chunk_size=2048):
-    digestion = {alg: hashlib.new(alg) for alg in SHA2 if alg in hashes}
+    digestion = {
+        alg: hashlib.new(alg) for alg in SECURE_HASHES if alg in hashes
+    }
     if digestion or isinstance(fpin, requests.Response):
         if isinstance(fpin, requests.Response):
             # `iter_content` needs to be used instead of `.raw.read` in order

@@ -2,7 +2,7 @@ import collections.abc
 from   functools     import reduce
 from   operator      import add
 from   debian.deb822 import Deb822
-from   .internals    import SHA2, detach_signature, simple_repr
+from   .internals    import SECURE_HASHES, detach_signature, simple_repr
 
 class Index(collections.abc.MutableMapping):
     def __init__(self, files, fields):
@@ -68,10 +68,9 @@ class Index(collections.abc.MutableMapping):
     def __len__(self):
         return len(self.files)
 
-    def sha2hashes(self, filename):
-        ### TODO: Rename to "secure_hashes"?
+    def secure_hashes(self, filename):
         about = self.files.get(filename, {})
-        return {alg: about[alg] for alg in SHA2 if alg in about}
+        return {alg: about[alg] for alg in SECURE_HASHES if alg in about}
 
     def for_json(self):
         return vars(self)

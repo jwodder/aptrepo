@@ -134,10 +134,10 @@ class Archive:
         # uncompressed form, depending on which data is available.
         # -- <https://wiki.debian.org/RepositoryFormat#MD5Sum.2C_SHA1.2C_SHA256>
         baseurl = joinurl(dirpath, basepath)
-        clearsums = index.sha2hashes(basepath)
+        clearsums = index.secure_hashes(basepath)
         for ext in extensions:
             if basepath + ext in index.files:
-                hashes = index.sha2hashes(basepath + ext)
+                hashes = index.secure_hashes(basepath + ext)
                 if not clearsums and not hashes:
                     continue
                 fp = TemporaryFile()
