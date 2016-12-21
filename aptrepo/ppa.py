@@ -1,7 +1,8 @@
 import platform
 import re
-from   .archive   import Archive
-from   .internals import simple_repr
+from   urllib.parse import quote
+from   .archive     import Archive
+from   .internals   import simple_repr
 
 class PPA:
     def __init__(self, ppa_spec=None, owner=None, name=None):
@@ -34,8 +35,10 @@ class PPA:
 
     @property
     def uri(self):
-        ### TODO: Perform URL escaping?
-        return 'http://ppa.launchpad.net/{0.owner}/{0.name}/ubuntu'.format(self)
+        return 'http://ppa.launchpad.net/{}/{}/ubuntu'.format(
+            quote(self.owner),
+            quote(self.name),
+        )
 
     def repository(self, distro=None):
         if distro is None:
