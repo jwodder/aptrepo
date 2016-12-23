@@ -13,9 +13,14 @@ class HashMismatchError(PyAPTError, ValueError):
         )
 
 class CannotFetchFileError(PyAPTError, ValueError):
+    REASON = 'reason unknown'
+
     def __init__(self, filename):
         self.filename = filename
-        super().__init__(
-            '{!r}: no secure checksums listed in index, or server returned 404'
-            .format(filename)
-        )
+        super().__init__('{!r}: {}'.format(filename, self.REASON))
+
+class NoSecureChecksumsError(CannotFetchFileError):
+    REASON = 'no secure checksums listed in index'
+
+class FileInaccessibleError(CannotFetchFileError):
+    REASON = 'all requests to server failed'

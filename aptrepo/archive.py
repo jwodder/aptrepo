@@ -5,7 +5,7 @@ import re
 from   tempfile   import TemporaryFile
 from   bs4        import BeautifulSoup
 import requests
-from   .errors    import CannotFetchFileError
+from   .errors    import NoSecureChecksumsError, FileInaccessibleError
 from   .flat      import FlatRepository
 from   .internals import copy_and_hash, joinurl
 from   .release   import ReleaseFile
@@ -135,11 +135,13 @@ class Archive:
         # -- <https://wiki.debian.org/RepositoryFormat#MD5Sum.2C_SHA1.2C_SHA256>
         baseurl = joinurl(dirpath, basepath)
         clearsums = index.secure_hashes(basepath)
+        hashes_available = False
         for ext in extensions:
             if basepath + ext in index.files:
                 hashes = index.secure_hashes(basepath + ext)
                 if not clearsums and not hashes:
                     continue
+                hashes_available = True
                 fp = TemporaryFile()
                 try:
                     if ext in DECOMPRESSORS:
@@ -157,4 +159,7 @@ class Archive:
                 fp.seek(0)
                 return fp
         else:
-            raise CannotFetchFileError(basepath)
+            if hashes_available:
+                raise FileInaccessibleError(basepath)
+            else:
+                raise NoSecureChecksumsError(basepath)
