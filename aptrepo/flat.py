@@ -14,12 +14,11 @@ class FlatRepository:
         # for use in detecting suite synonyms/symlinks
         return type(self) is type(other) and self.release == other.release
 
-    def fetch_indexed_file(self, basepath, extensions=None):
+    def fetch_indexed_file(self, basepath):
         return self.archive.fetch_indexed_file(
             '/' + self.name,
             basepath,
             self.release,
-            extensions=extensions,
         )
 
     def fetch_packages(self):

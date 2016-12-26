@@ -120,16 +120,9 @@ class Archive:
         unzipped = decompressor(zipped)
         copy_and_hash(unzipped, fp, basepath, uncompressed_hashes)
 
-    def fetch_indexed_file(self, dirpath, basepath, index, extensions=None):
+    def fetch_indexed_file(self, dirpath, basepath, index):
         ### TODO: Add an option for disabling hash checks
-        if extensions is None:
-            extensions = [''] + list(DECOMPRESSORS.keys())
-        else:
-            extensions = [
-                ext for ext in extensions if ext in DECOMPRESSORS or ext == ''
-            ]
-        if not extensions:
-            raise ValueError('no supported file extensions specified')
+        extensions = [''] + list(DECOMPRESSORS.keys())
         # Any file should be checked at least once, either in compressed or
         # uncompressed form, depending on which data is available.
         # -- <https://wiki.debian.org/RepositoryFormat#MD5Sum.2C_SHA1.2C_SHA256>

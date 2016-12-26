@@ -38,16 +38,12 @@ class Suite:
         )
 
     def fetch_contents(self, sarch):
-        contents = self.fetch_indexed_file(
-            'Contents-' + sarch,
-            extensions=('.gz',),  ### TODO: Include '' in extensions?
-        )
+        contents = self.fetch_indexed_file('Contents-' + sarch)
         return parse_contents(contents)
 
-    def fetch_indexed_file(self, basepath, extensions=None):
+    def fetch_indexed_file(self, basepath):
         return self.archive.fetch_indexed_file(
             '/dists/' + self.name,
             basepath,
             self.release,
-            extensions=extensions,
         )
