@@ -1,7 +1,7 @@
-class PyAPTError(Exception):
+class Error(Exception):
     pass
 
-class HashMismatchError(PyAPTError, ValueError):
+class HashMismatchError(Error, ValueError):
     def __init__(self, filename, hashname, expected, received):
         self.filename = filename
         self.hashname = hashname
@@ -12,7 +12,7 @@ class HashMismatchError(PyAPTError, ValueError):
             .format(hashname, filename, received, expected)
         )
 
-class CannotFetchFileError(PyAPTError, ValueError):
+class CannotFetchFileError(Error, ValueError):
     REASON = 'reason unknown'
 
     def __init__(self, filename):

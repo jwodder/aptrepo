@@ -6,7 +6,7 @@ __url__          = 'https://github.com/jwodder/aptrepo'
 
 from .archive   import Archive
 from .component import Component
-from .errors    import PyAPTError, HashMismatchError, CannotFetchFileError, \
+from .errors    import Error, HashMismatchError, CannotFetchFileError, \
                         NoSecureChecksumsError, FileInaccessibleError
 from .flat      import FlatRepository
 from .index     import IndexFile
@@ -21,13 +21,13 @@ __all__ = [
     'Archive',
     'Component',
     'CannotFetchFileError',
+    'Error',
     'FileInaccessibleError',
     'FlatRepository',
     'HashMismatchError',
     'IndexFile',
     'NoSecureChecksumsError',
     'PPA',
-    'PyAPTError',
     'ReleaseFile',
     'Suite',
     'dpkg_architecture',
