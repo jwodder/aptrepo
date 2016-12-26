@@ -4,7 +4,7 @@ from   operator      import add
 from   debian.deb822 import Deb822
 from   .internals    import SECURE_HASHES, detach_signature, simple_repr
 
-class Index(collections.abc.MutableMapping):
+class IndexFile(collections.abc.MutableMapping):
     def __init__(self, files, fields):
         self.files = files
         self.fields = fields

@@ -1,7 +1,7 @@
 from email.utils import parsedate_to_datetime
-from .index      import Index
+from .index      import IndexFile
 
-class ReleaseFile(Index):
+class ReleaseFile(IndexFile):
     @classmethod
     def parse(cls, obj):
         rf = super().parse(obj)

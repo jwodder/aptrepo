@@ -9,7 +9,7 @@ from .component import Component
 from .errors    import PyAPTError, HashMismatchError, CannotFetchFileError, \
                         NoSecureChecksumsError, FileInaccessibleError
 from .flat      import FlatRepository
-from .index     import Index
+from .index     import IndexFile
 from .ppa       import PPA
 from .release   import ReleaseFile
 from .sources   import AptSource, parse_sources
@@ -24,7 +24,7 @@ __all__ = [
     'FileInaccessibleError',
     'FlatRepository',
     'HashMismatchError',
-    'Index',
+    'IndexFile',
     'NoSecureChecksumsError',
     'PPA',
     'PyAPTError',

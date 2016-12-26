@@ -1,5 +1,5 @@
 from debian.deb822 import Packages, Sources
-from .index        import Index
+from .index        import IndexFile
 from .internals    import parse_contents, joinurl, simple_repr
 
 class Component:
@@ -34,7 +34,7 @@ class Component:
 
     def fetch_i18n_index(self):
         dex = self.suite.fetch_indexed_file(joinurl(self.name, 'i18n', 'Index'))
-        return Index.parse(dex)
+        return IndexFile.parse(dex)
 
     def fetch_translation(self, lang):
         ### TODO: This won't work when the translation files aren't listed in

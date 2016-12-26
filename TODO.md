@@ -48,6 +48,7 @@ Features
         - Downgrade by default?
     - If a hash mismatch occurs, continue trying to fetch the other compressed
       forms of the same file and only raise an error if they all fail
+    - Also check filesizes
 
 - Give Component a method for converting to a sources.list entry or
   representation thereof
@@ -59,8 +60,8 @@ Features
     - Add a method/command for downloading the latest version of a given
       package in a given repository/set of repositories
 - Add logging
-- Allow accessing the elements of an `Index`'s `fields` via attribute access on
-  the `Index` object?
+- Allow accessing the elements of an `IndexFile`'s `fields` via attribute
+  access on the `IndexFile` object?
     - This lookup should be case-insensitive and treat `_` as equivalent to `-`
 - Add commands for fetching:
     - Contents files
@@ -93,8 +94,7 @@ Coding & Technologies
     - automatically prepend the base URI to requests
         - <https://toolbelt.readthedocs.io/en/latest/sessions.html>
     - set the User Agent
-- Rename `Index` to `IndexFile`?
-- Give `Index` a(n optional?) `baseurl` parameter?
+- Give `IndexFile` a(n optional?) `baseurl` parameter?
 - Define classes with [`attrs`](https://attrs.readthedocs.io)?
 
 Research
