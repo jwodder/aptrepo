@@ -22,8 +22,8 @@ its command-line interface:
     suite
 
 ``aptrepo-packages [-a|--arch ARCH] [-T|--table] <uri> <suite> <component>``
-``aptrepo-packages [-a|--arch ARCH] [-T|--table] <uri> <suite/>``
-``aptrepo-packages [-a|--arch ARCH] [-T|--table] [-d|--distro DISTRO] <ppa>``
+``aptrepo-packages [-T|--table] <uri> <suite/>``
+``aptrepo-packages [-a|--arch ARCH] [-d|--distro DISTRO] [-T|--table] <ppa>``
     List the packages provided by the given repository for the given
     architecture as a stream of JSON objects.  If the ``--table`` option is
     supplied, the output will be in the form of a text table instead.
