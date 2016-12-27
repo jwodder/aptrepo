@@ -18,7 +18,7 @@ def for_json(obj):
         return obj.isoformat()
     elif isinstance(obj, collections.Mapping):
         # This includes all types in debian.deb822.
-        return dict(obj)
+        return {str(k): obj[k] for k in obj}
     elif isinstance(obj, (collections.Iterator, tuple, set, frozenset)):
         ### TODO: Sort sets and frozensets?
         return list(obj)

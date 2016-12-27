@@ -49,4 +49,9 @@ class IndexEntry:
     def secure_hashes(self):
         return {k:v for k,v in self.hashes.items() if k in SECURE_HASHES}
 
-    ### TODO: for_json
+    def for_json(self):
+        return {
+            "filename": self.filename,
+            "size": self.size,
+            "hashes": {k.name: v for k,v in self.hashes.items()}
+        }
