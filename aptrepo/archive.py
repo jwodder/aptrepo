@@ -1,22 +1,14 @@
-import bz2
-import gzip
-import lzma
 import re
-from   tempfile   import TemporaryFile
-from   bs4        import BeautifulSoup
+from   tempfile     import TemporaryFile
+from   bs4          import BeautifulSoup
 import requests
-from   .errors    import NoSecureChecksumsError, FileInaccessibleError
-from   .flat      import FlatRepository
-from   .internals import copy_and_hash, joinurl
-from   .release   import ReleaseFile
-from   .suite     import Suite
-
-DECOMPRESSORS = {
-    '.bz2': bz2.BZ2File,
-    '.gz': lambda fp: gzip.GzipFile(fileobj=fp),
-    '.lzma': lzma.LZMAFile,
-    '.xz': lzma.LZMAFile,
-}
+from   .compression import Compression
+from   .config      import ITER_CONTENT_SIZE
+from   .errors      import NoSecureChecksumsError, FileInaccessibleError
+from   .flat        import FlatRepository
+from   .internals   import joinurl
+from   .release     import ReleaseFile
+from   .suite       import Suite
 
 class Archive:
     def __init__(self, uri):
@@ -99,60 +91,48 @@ class Archive:
         else:
             return Suite(self, suite, release)
 
-    def fetch_file(self, basepath, fp, hashes):
-        # If `not hashes`, this method just assumes you know what you're doing
-        # and doesn't complain.
-        if basepath.startswith('/'):
-            path = joinurl(self.uri, basepath)
-        else:
-            path = basepath
-        r = self.session.get(path, stream=True)
-        r.raise_for_status()
-        copy_and_hash(r, fp, basepath, hashes)
-
-    def fetch_compressed_file(self, basepath, fp, compressed_hashes,
-                                    uncompressed_hashes, decompressor):
-        # If both hash sets are empty, this method just assumes you know what
-        # you're doing and doesn't complain.
-        zipped = TemporaryFile()
-        self.fetch_file(basepath, zipped, compressed_hashes)
-        zipped.seek(0)
-        unzipped = decompressor(zipped)
-        copy_and_hash(unzipped, fp, basepath, uncompressed_hashes)
-
     def fetch_indexed_file(self, dirpath, basepath, index):
         ### TODO: Add an option for disabling hash checks
-        extensions = [''] + list(DECOMPRESSORS.keys())
         # Any file should be checked at least once, either in compressed or
         # uncompressed form, depending on which data is available.
         # -- <https://wiki.debian.org/RepositoryFormat#MD5Sum.2C_SHA1.2C_SHA256>
-        baseurl = joinurl(dirpath, basepath)
-        clearsums = index.secure_hashes(basepath)
+
+        # This method will only fetch a file+extension if it is listed in the
+        # index and the index includes at least one secure hash for its
+        # compressed and/or uncompressed form.
+
+        baseurl = joinurl(self.uri, dirpath, basepath)
+        clearentry = index.get(basepath)
+        if clearentry is not None and not clearentry.secure_hashes():
+            clearentry = None
         hashes_available = False
-        for ext in extensions:
-            if basepath + ext in index.files:
-                hashes = index.secure_hashes(basepath + ext)
-                if not clearsums and not hashes:
-                    continue
-                hashes_available = True
-                fp = TemporaryFile()
-                try:
-                    if ext in DECOMPRESSORS:
-                        self.fetch_compressed_file(
-                            baseurl + ext,
-                            fp,
-                            hashes,
-                            clearsums,
-                            DECOMPRESSORS[ext],
-                        )
-                    else:
-                        self.fetch_file(baseurl + ext, fp, hashes)
-                except requests.HTTPError:
-                    continue
-                fp.seek(0)
-                return fp
+        for cmprs in Compression:
+            try:
+                hashes = index[basepath + cmprs.extension]
+            except KeyError:
+                continue
+            if clearentry is None and not hashes.secure_hashes():
+                continue
+            hashes_available = True
+            r = self.session.get(baseurl + cmprs.extension, stream=True)
+            if not r.ok:
+                continue
+            # `iter_content` needs to be used instead of `.raw.read` in order
+            # to handle gzipped/deflated content transfer encodings.
+            stream = r.iter_content(ITER_CONTENT_SIZE)
+            if hashes.secure_hashes():
+                stream = hashes.iter_check(stream)
+            if cmprs:
+                stream = cmprs.iter_decompress(stream)
+                if clearentry is not None:
+                    stream = clearentry.iter_check(stream)
+            fp = TemporaryFile()
+            for chunk in stream:
+                fp.write(chunk)
+            fp.seek(0)
+            return fp
+        if hashes_available:
+            ### TODO: Include the error responses?
+            raise FileInaccessibleError(basepath)
         else:
-            if hashes_available:
-                raise FileInaccessibleError(basepath)
-            else:
-                raise NoSecureChecksumsError(basepath)
+            raise NoSecureChecksumsError(basepath)

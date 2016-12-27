@@ -37,6 +37,7 @@ setup(
 
     extras_require={
         "libapt": ['python-apt'],
+        ':python_version<"3.4"': ['enum34'],
     },
 
     classifiers=[

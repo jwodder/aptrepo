@@ -1,37 +1,5 @@
 from   collections import namedtuple
-import hashlib
 import re
-import shutil
-import requests
-from   .errors     import HashMismatchError
-
-SECURE_HASHES = ("sha224", "sha256", "sha384", "sha512")  # SHA-2
-
-def copy_and_hash(fpin, fpout, filename, hashes, chunk_size=2048):
-    digestion = {
-        alg: hashlib.new(alg) for alg in SECURE_HASHES if alg in hashes
-    }
-    if digestion or isinstance(fpin, requests.Response):
-        if isinstance(fpin, requests.Response):
-            # `iter_content` needs to be used instead of `.raw.read` in order
-            # to handle gzipped/deflated content transfer encodings.
-            stream = fpin.iter_content(chunk_size)
-        else:
-            stream = iter(lambda: fpin.read(chunk_size), b'')
-        ### TODO: If `isinstance(fpout, BinaryIO)`, just read the whole input
-        ### at once instead of in chunks.
-        for chunk in stream:
-            for h in digestion.values():
-                h.update(chunk)
-            fpout.write(chunk)
-        for alg, h in digestion.items():
-            check = h.hexdigest()
-            if hashes[alg] != check:
-                raise HashMismatchError(filename, alg, hashes[alg], check)
-    else:
-        ### TODO: Use `iter_content` in order to handle gzipped/deflated
-        ### content transfer encodings.
-        shutil.copyfileobj(fpin, fpout)
 
 def detach_signature(txt):
     # See RFC 4880, section 7

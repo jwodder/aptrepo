@@ -37,18 +37,13 @@ Features
     - acquiring by hash
 
 - Hash checking:
-    - Emit a warning if a set of hashes passed to a function contains only
-      non-SHA2 digests?
-    - Give `fetch_indexed_file` an argument for specifying what hash
-      algorithms/the "minimum" hash algorithm to use
-        - Make `copy_and_hash` use whatever hashes it's given instead of
-          filtering out the non-SHA2 ones
+    - Give `fetch_indexed_file`/`IndexEntry.iter_check` arguments for
+      specifying what hash algorithms/the "minimum" hash algorithm to use
     - Add a way to fetch a file without checking its hashes?
     - Add an option for downgrading hash mismatch errors to warnings?
         - Downgrade by default?
     - If a hash mismatch occurs, continue trying to fetch the other compressed
       forms of the same file and only raise an error if they all fail
-    - Also check filesizes
 
 - Give Component a method for converting to a sources.list entry or
   representation thereof
@@ -87,13 +82,7 @@ Coding & Technologies
   temporary files?
     - No.  Uncompressed Packages files can be as large as 43 MB, and
       uncompressed Contents files can reach 1 GB.
-- Use `requests-toolbelt` <https://toolbelt.readthedocs.io> to:
-    - rewrite `copy_and_hash` (for reading HTTP responses, at least)
-        - <https://toolbelt.readthedocs.io/en/latest/downloadutils.html#requests_toolbelt.downloadutils.tee.tee>
-        - This will work out best if I can find an incremental Gzip decoder
-    - automatically prepend the base URI to requests
-        - <https://toolbelt.readthedocs.io/en/latest/sessions.html>
-    - set the User Agent
+- Set the User Agent used for HTTP requests?
 - Give `IndexFile` a(n optional?) `baseurl` parameter?
 - Define classes with [`attrs`](https://attrs.readthedocs.io)?
 

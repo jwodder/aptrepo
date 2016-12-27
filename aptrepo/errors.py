@@ -12,6 +12,16 @@ class HashMismatchError(Error, ValueError):
             .format(hashname, filename, received, expected)
         )
 
+class SizeMismatchError(Error, ValueError):
+    def __init__(self, filename, expected, received):
+        self.filename = filename
+        self.expected = expected
+        self.received = received
+        super().__init__(
+            'size of {!r} was {}, expected {}'
+            .format(filename, received, expected)
+        )
+
 class CannotFetchFileError(Error, ValueError):
     REASON = 'reason unknown'
 
