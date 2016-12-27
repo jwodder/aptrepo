@@ -11,8 +11,8 @@ with open(join(dirname(__file__), 'aptrepo', '__init__.py')) as fp:
     else:
         raise RuntimeError('Unable to find own __version__ string')
 
-###with open(join(dirname(__file__), 'README.rst')) as fp:
-###    long_desc = fp.read()
+with open(join(dirname(__file__), 'README.rst')) as fp:
+    long_desc = fp.read()
 
 setup(
     name='aptrepo',
@@ -21,9 +21,9 @@ setup(
     license='MIT',
     author='John Thorvald Wodder II',
     author_email='aptrepo@varonathe.org',
-    keywords='apt dpkg deb debian packaging apt-get repository',
+    keywords='apt dpkg deb debian packaging apt-get repository ppa',
     description='Examining & traversing APT repositories',
-    ###long_description=long_desc,
+    long_description=long_desc,
     url='https://github.com/jwodder/aptrepo',
 
     install_requires=[

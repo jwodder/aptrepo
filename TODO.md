@@ -1,4 +1,3 @@
-- Write a README
 - Add docstrings
 
 Features
