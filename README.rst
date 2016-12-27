@@ -16,41 +16,58 @@ data from arbitrary APT repositories (without having to add them to your
 ``sources.list`` first).  Currently, its main attractions are the programs in
 its command-line interface:
 
-``aptrepo-components <uri> <suite>``
-``aptrepo-components [-d|--distro DISTRO] <ppa>``
-    List the components (a.k.a. "sections" or "areas") available in the given
-    suite
+::
 
-``aptrepo-packages [-a|--arch ARCH] [-T|--table] <uri> <suite> <component>``
-``aptrepo-packages [-T|--table] <uri> <suite/>``
-``aptrepo-packages [-a|--arch ARCH] [-d|--distro DISTRO] [-T|--table] <ppa>``
-    List the packages provided by the given repository for the given
-    architecture as a stream of JSON objects.  If the ``--table`` option is
-    supplied, the output will be in the form of a text table instead.
+    aptrepo-components <uri> <suite>
+    aptrepo-components [-d|--distro DISTRO] <ppa>
 
-``aptrepo-release <uri> <suite>``
-``aptrepo-release <uri> <suite/>``
-``aptrepo-release [-d|--distro DISTRO] <ppa>``
-    Output the contents of the suite's ``Release`` or ``InRelease`` file as a
-    JSON object
+List the components (a.k.a. "sections" or "areas") available in the given suite
 
-``aptrepo-sources <uri> <suite> <component>``
-``aptrepo-sources <uri> <suite/>``
-``aptrepo-sources [-d|--distro DISTRO] <ppa>``
-    List the source packages provided by the given repository as a stream of
-    JSON objects
+::
 
-``aptrepo-suites [-F|--flat] {<uri> | <ppa>} [<subdir>]``
-    Try to determine the suites available in the given archive by scraping the
-    index page of the archive's ``/dists`` directory (or a given subdirectory
-    beneath it).  If the ``--flat`` option is given, ``aptrepo-suites`` will
-    instead scrape the archive's main URI (or a given subdirectory beneath it).
+    aptrepo-packages [-a|--arch ARCH] [-T|--table] <uri> <suite> <component>
+    aptrepo-packages [-T|--table] <uri> <suite/>
+    aptrepo-packages [-a|--arch ARCH] [-d|--distro DISTRO] [-T|--table] <ppa>
 
-``aptrepo-translation <lang> <uri> <suite> <component>``
-``aptrepo-translation <lang> <uri> <suite/>``
-``aptrepo-translation [-d|--distro DISTRO] <lang> <ppa>``
-    Fetch the package description translations for the given language code from
-    the given repository
+List the packages provided by the given repository for the given architecture
+as a stream of JSON objects.  If the ``--table`` option is supplied, the output
+will be in the form of a text table instead.
+
+::
+
+    aptrepo-release <uri> <suite>
+    aptrepo-release <uri> <suite/>
+    aptrepo-release [-d|--distro DISTRO] <ppa>
+
+Output the contents of the suite's ``Release`` or ``InRelease`` file as a JSON
+object
+
+::
+
+    aptrepo-sources <uri> <suite> <component>
+    aptrepo-sources <uri> <suite/>
+    aptrepo-sources [-d|--distro DISTRO] <ppa>
+
+List the source packages provided by the given repository as a stream of JSON
+objects
+
+::
+
+    aptrepo-suites [-F|--flat] {<uri> | <ppa>} [<subdir>]
+
+Try to determine the suites available in the given archive by scraping the
+index page of the archive's ``/dists`` directory (or a given subdirectory
+beneath it).  If the ``--flat`` option is given, ``aptrepo-suites`` will
+instead scrape the archive's main URI (or a given subdirectory beneath it).
+
+::
+
+    aptrepo-translation <lang> <uri> <suite> <component>
+    aptrepo-translation <lang> <uri> <suite/>
+    aptrepo-translation [-d|--distro DISTRO] <lang> <ppa>
+
+Fetch the package description translations for the given language code from the
+given repository
 
 
 Installation
