@@ -1,3 +1,4 @@
+import logging
 import re
 from   tempfile     import TemporaryFile
 from   bs4          import BeautifulSoup
@@ -9,6 +10,8 @@ from   .flat        import FlatRepository
 from   .internals   import joinurl
 from   .release     import ReleaseFile
 from   .suite       import Suite
+
+log = logging.getLogger(__name__)
 
 class Archive:
     def __init__(self, uri):
@@ -77,11 +80,14 @@ class Archive:
             baseurl = joinurl(self.uri, suite)
         else:
             baseurl = joinurl(self.uri, 'dists', suite)
+        log.info('Fetching InRelease file from %s', baseurl)
         r = self.session.get(joinurl(baseurl, 'InRelease'))
         if not (400 <= r.status_code < 500):
             r.raise_for_status()
             release = ReleaseFile.parse_signed(r.content)
         else:
+            log.info('Server returned %d; fetching Release file instead',
+                     r.status_code)
             r = self.session.get(joinurl(baseurl, 'Release'))
             r.raise_for_status()
             release = ReleaseFile.parse(r.content)
@@ -102,21 +108,29 @@ class Archive:
         # compressed and/or uncompressed form.
 
         baseurl = joinurl(self.uri, dirpath, basepath)
+        log.info('Fetching %s', baseurl)
         clearentry = index.get(basepath)
         if clearentry is not None and not clearentry.secure_hashes():
             clearentry = None
         hashes_available = False
         for cmprs in Compression:
+            log.info('Attempting to fetch as %s ...', cmprs.name)
+            extpath = basepath + cmprs.extension
             try:
-                hashes = index[basepath + cmprs.extension]
+                hashes = index[extpath]
             except KeyError:
+                log.info('%s: no index entry; skipping', extpath)
                 continue
             if clearentry is None and not hashes.secure_hashes():
+                log.info('%s: no secure hashes in index; skipping', extpath)
                 continue
             hashes_available = True
             r = self.session.get(baseurl + cmprs.extension, stream=True)
             if not r.ok:
+                log.info('%s: server returned %d; skipping', extpath,
+                         r.status_code)
                 continue
+            log.info('%s fetched; checking hashes...', extpath)
             # `iter_content` needs to be used instead of `.raw.read` in order
             # to handle gzipped/deflated content transfer encodings.
             stream = r.iter_content(ITER_CONTENT_SIZE)
@@ -130,6 +144,7 @@ class Archive:
             for chunk in stream:
                 fp.write(chunk)
             fp.seek(0)
+            log.info('%s downloaded successfully', extpath)
             return fp
         if hashes_available:
             ### TODO: Include the error responses?

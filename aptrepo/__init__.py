@@ -20,6 +20,9 @@ from .sources     import AptSource, parse_sources
 from .suite       import Suite
 from .util        import dpkg_architecture, dpkg_foreign_architectures, for_json
 
+import logging
+logging.getLogger(__name__).addHandler(logging.NullHandler())
+
 __all__ = [
     'AptSource',
     'Archive',
