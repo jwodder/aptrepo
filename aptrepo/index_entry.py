@@ -25,7 +25,6 @@ class IndexEntry:
         size = 0
         digestion = {alg: alg() for alg in self.hashes if alg in SECURE_HASHES}
         if not digestion:
-            ### TODO: This isn't semantically correct:
             raise NoSecureChecksumsError(self.filename)
         for chunk in blob_iter:
             for h in digestion.values():

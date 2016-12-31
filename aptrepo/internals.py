@@ -20,6 +20,7 @@ def detach_signature(txt):
     else:
         return (txt, None)
 
+### TODO: Export this:
 ContentsPackage = namedtuple('ContentsPackage', 'area section name')
 
 def parse_contents(fp):

@@ -5,7 +5,7 @@ from   bs4          import BeautifulSoup
 import requests
 from   .compression import Compression
 from   .config      import ITER_CONTENT_SIZE
-from   .errors      import NoSecureChecksumsError, FileInaccessibleError
+from   .errors      import NoValidCandidatesError, FileInaccessibleError
 from   .flat        import FlatRepository
 from   .internals   import joinurl
 from   .release     import ReleaseFile
@@ -150,4 +150,4 @@ class Archive:
             ### TODO: Include the error responses?
             raise FileInaccessibleError(basepath)
         else:
-            raise NoSecureChecksumsError(basepath)
+            raise NoValidCandidatesError(basepath)

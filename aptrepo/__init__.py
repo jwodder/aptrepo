@@ -6,10 +6,20 @@ __url__          = 'https://github.com/jwodder/aptrepo'
 
 from .archive     import Archive
 from .component   import Component
+
 ### TODO: Export Compression?
-from .errors      import Error, HashMismatchError, SizeMismatchError, \
-                            CannotFetchFileError, NoSecureChecksumsError, \
-                            FileInaccessibleError
+
+from .errors      import (
+                            Error,
+                                FileValidationError,
+                                    NoSecureChecksumsError,
+                                    HashMismatchError,
+                                    SizeMismatchError,
+                                CannotFetchFileError,
+                                    NoValidCandidatesError,
+                                    FileInaccessibleError,
+                         )
+
 from .flat        import FlatRepository
 from .hashes      import Hash
 from .index       import IndexFile
@@ -26,16 +36,18 @@ logging.getLogger(__name__).addHandler(logging.NullHandler())
 __all__ = [
     'AptSource',
     'Archive',
-    'Component',
     'CannotFetchFileError',
+    'Component',
     'Error',
     'FileInaccessibleError',
+    'FileValidationError',
     'FlatRepository',
     'Hash',
     'HashMismatchError',
     'IndexEntry',
     'IndexFile',
     'NoSecureChecksumsError',
+    'NoValidCandidatesError',
     'PPA',
     'ReleaseFile',
     'SizeMismatchError',

@@ -1,7 +1,19 @@
 class Error(Exception):
     pass
 
-class HashMismatchError(Error, ValueError):
+
+class FileValidationError(Error, ValueError):
+    # Subclasses are expected to have `filename` attributes
+    pass
+
+class NoSecureChecksumsError(FileValidationError):
+    def __init__(self, filename):
+        self.filename = filename
+        super().__init__(
+            '{!r}: no secure checksums to validate against'.format(filename)
+        )
+
+class HashMismatchError(FileValidationError):
     def __init__(self, filename, hashname, expected, received):
         self.filename = filename
         self.hashname = hashname
@@ -12,7 +24,7 @@ class HashMismatchError(Error, ValueError):
             .format(hashname, filename, received, expected)
         )
 
-class SizeMismatchError(Error, ValueError):
+class SizeMismatchError(FileValidationError):
     def __init__(self, filename, expected, received):
         self.filename = filename
         self.expected = expected
@@ -22,15 +34,16 @@ class SizeMismatchError(Error, ValueError):
             .format(filename, received, expected)
         )
 
-class CannotFetchFileError(Error, ValueError):
+
+class CannotFetchFileError(Error):
     REASON = 'reason unknown'
 
     def __init__(self, filename):
         self.filename = filename
         super().__init__('{!r}: {}'.format(filename, self.REASON))
 
-class NoSecureChecksumsError(CannotFetchFileError):
-    REASON = 'no secure checksums listed in index'
+class NoValidCandidatesError(CannotFetchFileError):
+    REASON = 'no matching entries with secure checksums listed in index'
 
 class FileInaccessibleError(CannotFetchFileError):
     REASON = 'all requests to server failed'
