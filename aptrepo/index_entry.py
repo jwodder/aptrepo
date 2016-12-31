@@ -23,9 +23,7 @@ class IndexEntry:
     #def iter_check(self, blob_iter: Iterable[bytes]) -> Iterator[bytes]:
     def iter_check(self, blob_iter):
         size = 0
-        digestion = {
-            alg: alg.hashcls() for alg in self.hashes if alg in SECURE_HASHES
-        }
+        digestion = {alg: alg() for alg in self.hashes if alg in SECURE_HASHES}
         if not digestion:
             ### TODO: This isn't semantically correct:
             raise NoSecureChecksumsError(self.filename)
