@@ -53,7 +53,7 @@ Features
 - Add methods for actually downloading packages
     - Add a method/command for downloading the latest version of a given
       package in a given repository/set of repositories
-- Add logging
+- Add (more) logging
 - Allow accessing the elements of an `IndexFile`'s `fields` via attribute
   access on the `IndexFile` object?
     - This lookup should be case-insensitive and treat `_` as equivalent to `-`
@@ -84,6 +84,8 @@ Coding & Technologies
 - Set the User Agent used for HTTP requests?
 - Give `IndexFile` a(n optional?) `baseurl` parameter?
 - Define classes with [`attrs`](https://attrs.readthedocs.io)?
+- Make the set of known hashes and compression algorithms configurable via
+  `config.py`
 
 Research
 --------

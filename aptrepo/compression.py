@@ -5,7 +5,6 @@ from   lzma      import LZMADecompressor
 import zlib
 
 class Compression(Enum):
-    ### TODO: Make the set of known compressions configurable via config.py
     bzip2 = ('.bz2', BZ2Decompressor)
     # See <http://stackoverflow.com/q/2423866/744178>:
     gzip  = ('.gz', partial(zlib.decompressobj, zlib.MAX_WBITS | 16))
