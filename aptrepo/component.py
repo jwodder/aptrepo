@@ -1,6 +1,10 @@
-from debian.deb822 import Packages, Sources
-from .index        import IndexFile
-from .internals    import parse_contents, joinurl, simple_repr
+import logging
+from   debian.deb822 import Packages, Sources
+from   .errors       import NoValidCandidatesError
+from   .index        import IndexFile
+from   .internals    import parse_contents, joinurl, simple_repr
+
+log = logging.getLogger(__name__)
 
 class Component:
     def __init__(self, suite, name):
@@ -37,11 +41,21 @@ class Component:
         return IndexFile.parse(dex)
 
     def fetch_translation(self, lang):
-        ### TODO: This won't work when the translation files aren't listed in
-        ### the suite's Release
-        fp = self.suite.fetch_indexed_file(
-            joinurl(self.name, 'i18n', 'Translation-' + lang)
-        )
+        try:
+            fp = self.suite.fetch_indexed_file(
+                joinurl(self.name, 'i18n', 'Translation-' + lang)
+            )
+        except NoValidCandidatesError:
+            ### TODO: Fail early if the Release file contains Translation files
+            ### other than the one the user asked for
+            log.info('Translation file not listed in Release; trying i18n/Index instead')
+            index = self.fetch_i18n_index()
+            ### TODO: Allow validation against SHA1 hashes here:
+            fp = self.archive.fetch_indexed_file(
+                joinurl('dists', self.suite.name, self.name, 'i18n'),
+                'Translation-' + lang,
+                index,
+            )
         return Packages.iter_paragraphs(fp, use_apt_pkg=True)
 
     @property
