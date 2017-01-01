@@ -37,6 +37,9 @@ setup(
 
     extras_require={
         "libapt": ['python-apt'],
+        # Note: Installing python-apt from source requires you to first install
+        # <https://launchpad.net/python-distutils-extra>, which is distributed
+        # via Debian and Ubuntu's APT repositories only, not via PyPI.
         ':python_version<"3.4"': ['enum34'],
     },
 

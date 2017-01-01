@@ -24,13 +24,13 @@ class Component:
         fp = self.suite.fetch_indexed_file(
             joinurl(self.name, 'binary-' + arch, 'Packages')
         )
-        return Packages.iter_paragraphs(fp)
+        return Packages.iter_paragraphs(fp, use_apt_pkg=True)
 
     def fetch_sources(self):
         fp = self.suite.fetch_indexed_file(
             joinurl(self.name, 'source', 'Sources')
         )
-        return Sources.iter_paragraphs(fp)
+        return Sources.iter_paragraphs(fp, use_apt_pkg=True)
 
     def fetch_i18n_index(self):
         dex = self.suite.fetch_indexed_file(joinurl(self.name, 'i18n', 'Index'))
@@ -42,7 +42,7 @@ class Component:
         fp = self.suite.fetch_indexed_file(
             joinurl(self.name, 'i18n', 'Translation-' + lang)
         )
-        return Packages.iter_paragraphs(fp)
+        return Packages.iter_paragraphs(fp, use_apt_pkg=True)
 
     @property
     def has_contents(self):

@@ -23,11 +23,11 @@ class FlatRepository:
 
     def fetch_packages(self):
         fp = self.fetch_indexed_file('Packages')
-        return Packages.iter_paragraphs(fp)
+        return Packages.iter_paragraphs(fp, use_apt_pkg=True)
 
     def fetch_sources(self):
         fp = self.fetch_indexed_file('Sources')
-        return Sources.iter_paragraphs(fp)
+        return Sources.iter_paragraphs(fp, use_apt_pkg=True)
 
     @property
     def architectures(self):
