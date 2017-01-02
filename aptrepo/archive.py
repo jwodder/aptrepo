@@ -97,8 +97,7 @@ class Archive:
         else:
             return Suite(self, suite, release)
 
-    def fetch_indexed_file(self, dirpath, basepath, index):
-        ### TODO: Add an option for disabling hash checks
+    def fetch_indexed_file(self, dirpath, basepath, index, allowed_hashes=None):
         # Any file should be checked at least once, either in compressed or
         # uncompressed form, depending on which data is available.
         # -- <https://wiki.debian.org/RepositoryFormat#MD5Sum.2C_SHA1.2C_SHA256>
@@ -109,10 +108,12 @@ class Archive:
 
         baseurl = joinurl(self.uri, dirpath, basepath)
         log.info('Fetching %s', baseurl)
+        ### TODO: Log allowed_hashes
         clearentry = index.get(basepath)
-        if clearentry is not None and not clearentry.secure_hashes():
+        if clearentry is not None and \
+                not clearentry.filter_hashes(allowed_hashes):
             clearentry = None
-        hashes_available = False
+        in_index = False
         for cmprs in Compression:
             log.info('Attempting to fetch as %s ...', cmprs.name)
             extpath = basepath + cmprs.extension
@@ -121,32 +122,32 @@ class Archive:
             except KeyError:
                 log.info('%s: no index entry; skipping', extpath)
                 continue
-            if clearentry is None and not hashes.secure_hashes():
+            if clearentry is None and not hashes.filter_hashes(allowed_hashes):
                 log.info('%s: no secure hashes in index; skipping', extpath)
                 continue
-            hashes_available = True
+            in_index = True
             r = self.session.get(baseurl + cmprs.extension, stream=True)
             if not r.ok:
                 log.info('%s: server returned %d; skipping', extpath,
                          r.status_code)
                 continue
-            log.info('%s fetched; checking hashes...', extpath)
+            log.info('%s: downloading and checking hashes ...', extpath)
             # `iter_content` needs to be used instead of `.raw.read` in order
             # to handle gzipped/deflated content transfer encodings.
             stream = r.iter_content(ITER_CONTENT_SIZE)
-            if hashes.secure_hashes():
-                stream = hashes.iter_check(stream)
+            if hashes.filter_hashes(allowed_hashes):
+                stream = hashes.iter_check(stream, allowed_hashes)
             if cmprs:
                 stream = cmprs.iter_decompress(stream)
                 if clearentry is not None:
-                    stream = clearentry.iter_check(stream)
+                    stream = clearentry.iter_check(stream, allowed_hashes)
             fp = TemporaryFile()
             for chunk in stream:
                 fp.write(chunk)
             fp.seek(0)
             log.info('%s downloaded successfully', extpath)
             return fp
-        if hashes_available:
+        if in_index:
             ### TODO: Include the error responses?
             raise FileInaccessibleError(basepath)
         else:

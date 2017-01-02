@@ -1,5 +1,6 @@
 import logging
 from   debian.deb822 import Packages, Sources
+from   .config       import I18N_INDEX_HASHES
 from   .errors       import NoValidCandidatesError
 from   .index        import IndexFile
 from   .internals    import parse_contents, joinurl, simple_repr
@@ -48,13 +49,14 @@ class Component:
         except NoValidCandidatesError:
             ### TODO: Fail early if the Release file contains Translation files
             ### other than the one the user asked for
-            log.info('Translation file not listed in Release; trying i18n/Index instead')
+            log.info('Translation file not listed in Release;'
+                     ' trying i18n/Index instead')
             index = self.fetch_i18n_index()
-            ### TODO: Allow validation against SHA1 hashes here:
             fp = self.archive.fetch_indexed_file(
                 joinurl('dists', self.suite.name, self.name, 'i18n'),
                 'Translation-' + lang,
                 index,
+                allowed_hashes=I18N_INDEX_HASHES,
             )
         return Packages.iter_paragraphs(fp, use_apt_pkg=True)
 

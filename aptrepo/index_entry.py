@@ -21,9 +21,11 @@ class IndexEntry:
         self.hashes[algorithm] = digest
 
     #def iter_check(self, blob_iter: Iterable[bytes]) -> Iterator[bytes]:
-    def iter_check(self, blob_iter):
+    def iter_check(self, blob_iter, allowed_hashes=None):
+        if allowed_hashes is None:
+            allowed_hashes = SECURE_HASHES
         size = 0
-        digestion = {alg: alg() for alg in self.hashes if alg in SECURE_HASHES}
+        digestion = {alg: alg() for alg in self.hashes if alg in allowed_hashes}
         if not digestion:
             raise NoSecureChecksumsError(self.filename)
         for chunk in blob_iter:
@@ -43,8 +45,10 @@ class IndexEntry:
                     check,
                 )
 
-    def secure_hashes(self):
-        return {k:v for k,v in self.hashes.items() if k in SECURE_HASHES}
+    def filter_hashes(self, allowed_hashes=None):
+        if allowed_hashes is None:
+            allowed_hashes = SECURE_HASHES
+        return {k:v for k,v in self.hashes.items() if k in allowed_hashes}
 
     def for_json(self):
         return {

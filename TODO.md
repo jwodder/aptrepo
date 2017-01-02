@@ -4,7 +4,6 @@ Features
 --------
 - To support:
     - `$(ARCH)` in suite specifications
-    - getting a list of available translations from i18n/Index files
     - verifying PGP signatures
         - Give `Archive` and `Suite`/`FlatRepository` a `trusted_keys` (a list
           of PGP keys) attribute; the latter "inherit" their attribute values
@@ -36,8 +35,6 @@ Features
     - acquiring by hash
 
 - Hash checking:
-    - Give `fetch_indexed_file`/`IndexEntry.iter_check` arguments for
-      specifying what hash algorithms/the "minimum" hash algorithm to use
     - Add a way to fetch a file without checking its hashes?
     - Add an option for downgrading hash mismatch errors to warnings?
         - Downgrade by default?
