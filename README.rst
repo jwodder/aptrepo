@@ -73,7 +73,7 @@ given repository
 Installation
 ============
 
-``aptrepo`` requires Python 3.3 or higher.  Just use `pip
+``aptrepo`` requires Python 3.4 or higher.  Just use `pip
 <https://pip.pypa.io/>`_ for Python 3 (You have pip, right?) to install
 ``aptrepo`` and its dependencies::
 

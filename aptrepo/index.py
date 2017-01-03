@@ -1,12 +1,15 @@
 import collections.abc
 from   functools     import reduce
 from   operator      import add
+from   pathlib       import PurePosixPath
 from   debian.deb822 import Deb822
 from   .hashes       import Hash
 from   .index_entry  import IndexEntry
 from   .internals    import detach_signature, simple_repr
 
 class IndexFile(collections.abc.MutableMapping):
+    # The keys are all (supposed to be) relative POSIX paths.
+
     def __init__(self, files, fields):
         self.files = files
         self.fields = fields
@@ -65,5 +68,34 @@ class IndexFile(collections.abc.MutableMapping):
     def __len__(self):
         return len(self.files)
 
+    def __bool__(self):
+        return bool(self.files)
+
     def for_json(self):
         return vars(self)
+
+    def subindex(self, *path):
+        """
+        Returns an `IndexFile` object listing only those files in or below the
+        directory given by ``*path``.  The path keys in the resulting object
+        will be relative to ``*path``.
+
+        ``*path`` may be any relative path specification accepted by
+        `PurePath.relative_to`, such as a string (e.g., ``"main"`` or
+        ``"main/binary-amd64"``), a sequence of strings (e.g., ``"main",
+        "binary-amd64"``), or a `PurePosixPath` object.
+        """
+        ### TODO: Add an option for also updating the `filename` attributes of
+        ### the IndexEntries?
+        ### TODO: Add an option for controlling whether to keep `fields`?
+        subfiles = {}
+        for p, entry in self.files.items():
+            pathobj = PurePosixPath(p)
+            ### TODO: Handle absolute paths and paths beginning with .. (or .?)
+            try:
+                subpath = pathobj.relative_to(*path)
+            except ValueError:
+                pass
+            else:
+                subfiles[str(subpath)] = entry
+        return self.__class__(files=subfiles, fields=self.fields.copy())

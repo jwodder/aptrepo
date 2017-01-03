@@ -40,7 +40,6 @@ setup(
         # Note: Installing python-apt from source requires libapt-pkg-dev,
         # intltool, and <https://launchpad.net/python-distutils-extra> (which
         # isn't even on PyPI!)
-        ':python_version<"3.4"': ['enum34'],
     },
 
     classifiers=[
