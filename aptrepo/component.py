@@ -1,9 +1,9 @@
 import logging
-from   debian.deb822 import Packages, Sources
-from   .config       import I18N_INDEX_HASHES
-from   .errors       import NoValidCandidatesError
-from   .index        import IndexFile
-from   .internals    import parse_contents, joinurl, simple_repr
+from   debian.deb822    import Packages, Sources
+from   property_manager import cached_property
+from   .config          import I18N_INDEX_HASHES
+from   .index           import IndexFile
+from   .internals       import parse_contents, joinurl, simple_repr
 
 log = logging.getLogger(__name__)
 
@@ -41,23 +41,31 @@ class Component:
         dex = self.suite.fetch_indexed_file(joinurl(self.name, 'i18n', 'Index'))
         return IndexFile.parse(dex)
 
+    @cached_property
+    def translation_index(self):
+        dex = self.suite.release.subindex(self.name, 'i18n')
+        have_i18n_index = 'Index' in dex
+        dex.files = {
+            k:v for k,v in dex.files.items() if k.startswith('Translation-')
+        }
+        if dex:
+            self.using_i18n_index = False
+            return dex
+        elif have_i18n_index:
+            self.using_i18n_index = True
+            return self.fetch_i18n_index()
+        else:
+            self.using_i18n_index = False
+            return IndexFile({}, {})
+
     def fetch_translation(self, lang):
-        try:
-            fp = self.suite.fetch_indexed_file(
-                joinurl(self.name, 'i18n', 'Translation-' + lang)
-            )
-        except NoValidCandidatesError:
-            ### TODO: Fail early if the Release file contains Translation files
-            ### other than the one the user asked for
-            log.info('Translation file not listed in Release;'
-                     ' trying i18n/Index instead')
-            index = self.fetch_i18n_index()
-            fp = self.archive.fetch_indexed_file(
-                joinurl('dists', self.suite.name, self.name, 'i18n'),
-                'Translation-' + lang,
-                index,
-                allowed_hashes=I18N_INDEX_HASHES,
-            )
+        index = self.translation_index
+        fp = self.archive.fetch_indexed_file(
+            joinurl('dists', self.suite.name, self.name, 'i18n'),
+            'Translation-' + lang,
+            index,
+            allowed_hashes=I18N_INDEX_HASHES if self.using_i18n_index else None,
+        )
         return Packages.iter_paragraphs(fp, use_apt_pkg=True)
 
     @property

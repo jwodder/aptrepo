@@ -1,4 +1,6 @@
 - Add docstrings
+- Determine the minimum necessary versions of chardet, property-manager, and
+  python-apt needed
 
 Features
 --------
@@ -85,6 +87,7 @@ Coding & Technologies
 - Make the set of known hashes and compression algorithms configurable via
   `config.py`
 - Make `Suite` into a `Mapping`?
+- Stop using `joinurl` to join relative paths?
 
 
 Research
