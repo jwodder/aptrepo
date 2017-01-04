@@ -40,10 +40,8 @@ Features
     - Add a way to fetch a file without checking its hashes?
     - Add an option for downgrading hash mismatch errors to warnings?
         - Downgrade by default?
-    - If a hash mismatch occurs, continue trying to fetch the other compressed
-      forms of the same file and only raise an error if they all fail
 
-- Give Component a method for converting to a sources.list entry or
+- Give Component and PPA methods for converting to a sources.list entry or
   representation thereof
 - Give Component a method for getting the language codes for all available
   translations

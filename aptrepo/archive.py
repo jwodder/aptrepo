@@ -5,7 +5,8 @@ from   bs4          import BeautifulSoup
 import requests
 from   .compression import Compression
 from   .config      import ITER_CONTENT_SIZE
-from   .errors      import NoValidCandidatesError, FileInaccessibleError
+from   .errors      import NoValidCandidatesError, FileInaccessibleError, \
+                            FileValidationError
 from   .flat        import FlatRepository
 from   .internals   import joinurl
 from   .release     import ReleaseFile
@@ -142,13 +143,20 @@ class Archive:
                 if clearentry is not None:
                     stream = clearentry.iter_check(stream, allowed_hashes)
             fp = TemporaryFile()
-            for chunk in stream:
-                fp.write(chunk)
-            fp.seek(0)
-            log.info('%s downloaded successfully', extpath)
-            return fp
+            try:
+                for chunk in stream:
+                    fp.write(chunk)
+            ### TODO: Also skip on other errors?
+            except FileValidationError as e:
+                log.warning('%s: download failed to validate: %s; skipping',
+                            extpath, str(e))
+            else:
+                fp.seek(0)
+                log.info('%s downloaded successfully', extpath)
+                return fp
         if in_index:
             ### TODO: Include the error responses?
             raise FileInaccessibleError(basepath)
         else:
+            ### TODO: Include the file validation errors?
             raise NoValidCandidatesError(basepath)
