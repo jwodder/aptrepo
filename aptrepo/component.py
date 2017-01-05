@@ -1,4 +1,5 @@
 import logging
+from   os.path          import splitext
 from   debian.deb822    import Packages, Sources
 from   property_manager import cached_property
 from   .config          import I18N_INDEX_HASHES
@@ -57,6 +58,18 @@ class Component:
         else:
             self.using_i18n_index = False
             return IndexFile({}, {})
+
+    def available_translations(self):
+        xlates = set()
+        prefix_len = len('Translation-')
+        for fname in self.translation_index.files:
+            assert fname[:prefix_len] == 'Translation-'
+            fname, _ = splitext(fname[prefix_len:])
+            ### TODO: Do I ever need to remove more than one extension?  Are
+            ### there "extensions" that shouldn't be removed (i.e., will a
+            ### translation file ever be named "Translation-en_US.UTF-8")?
+            xlates.add(fname)
+        return xlates
 
     def fetch_translation(self, lang):
         index = self.translation_index

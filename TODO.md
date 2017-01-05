@@ -43,8 +43,6 @@ Features
 
 - Give Component and PPA methods for converting to a sources.list entry or
   representation thereof
-- Give Component a method for getting the language codes for all available
-  translations
 - Give PPA methods for fetching data from Launchpad (pubkey, supported Ubuntu
   releases?, etc.)
 - Add methods for actually downloading packages
