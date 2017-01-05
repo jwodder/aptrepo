@@ -57,7 +57,6 @@ Features
     - Contents files
     - architectures supported by a suite/component?
     - component release files?
-    - list of available translations
 - Support repositories like Chef's that name the "Components" field in Release
   files "Component"
 - Make the unparsed fields of `ReleaseFile`s available somewhere?

@@ -62,8 +62,17 @@ instead scrape the archive's main URI (or a given subdirectory beneath it).
 
 ::
 
-    aptrepo-translation <lang> <uri> <suite> <component>
-    aptrepo-translation <lang> <uri> <suite/>
+    aptrepo-translation list <uri> <suite> <component>
+    aptrepo-translation list <uri> <suite/>
+    aptrepo-translation list [-d|--distro DISTRO] <ppa>
+
+List the language codes of the available package description translations in
+the given repository
+
+::
+
+    aptrepo-translation get <lang> <uri> <suite> <component>
+    aptrepo-translation get <lang> <uri> <suite/>
     aptrepo-translation [-d|--distro DISTRO] <lang> <ppa>
 
 Fetch the package description translations for the given language code from the

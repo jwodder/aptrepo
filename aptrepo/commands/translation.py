@@ -1,4 +1,8 @@
-""" Usage: aptrepo-translation <lang> <repo-spec> """
+"""
+Usage:
+    aptrepo-translation list <repo-spec>
+    aptrepo-translation get <lang> <repo-spec>
+"""
 
 import argparse
 import json
@@ -8,16 +12,26 @@ from   .common import get_component
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-d', '--distro')
-    parser.add_argument('lang')
-    parser.add_argument('repo', nargs='+')
+    cmds = parser.add_subparsers(title='command', dest='cmd')
+    cmd_list = cmds.add_parser('list')
+    cmd_list.add_argument('-d', '--distro')
+    cmd_list.add_argument('repo', nargs='+')
+    cmd_get = cmds.add_parser('get')
+    cmd_get.add_argument('-d', '--distro')
+    cmd_get.add_argument('lang')
+    cmd_get.add_argument('repo', nargs='+')
     args = parser.parse_args()
     repo = get_component(args)
     if isinstance(repo, FlatRepository):
         sys.exit('Translations in flat repositories are not yet supported')
-    else:
+    elif args.cmd == 'list':
+        for lang in sorted(repo.available_translations()):
+            print(lang)
+    elif args.cmd == 'get':
         for desc in repo.fetch_translation(args.lang):
             print(json.dumps(desc, default=for_json))
+    else:
+        assert False, 'No path defined for command {0!r}'.format(args.cmd)
 
 if __name__ == '__main__':
     main()
