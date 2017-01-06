@@ -1,12 +1,14 @@
-from .config import SECURE_HASHES
-from .errors import HashMismatchError, SizeMismatchError, NoSecureChecksumsError
-from .hashes import Hash
+import attr
+from   .config import SECURE_HASHES
+from   .errors import HashMismatchError, SizeMismatchError, \
+                        NoSecureChecksumsError
+from   .hashes import Hash
 
+@attr.s(hash=False)
 class IndexEntry:
-    def __init__(self, filename: str):
-        self.filename = filename
-        self.size = None
-        self.hashes = {}
+    filename = attr.ib()  # string
+    size     = attr.ib(default=None, init=False)
+    hashes   = attr.ib(default=attr.Factory(dict), init=False)
 
     def add_checksum(self, algorithm: Hash, digest: str, size: int) -> None:
         if self.size is None:

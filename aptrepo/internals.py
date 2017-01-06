@@ -49,10 +49,3 @@ def joinurl(url, *paths):
     if not url.endswith('/'):
         url += '/'
     return url + '/'.join(p.strip('/') for p in paths)
-
-def simple_repr(obj):
-    return '{}.{}({})'.format(
-        __package__,
-        obj.__class__.__name__,
-        ', '.join('{}={!r}'.format(k,v) for k,v in vars(obj).items()),
-    )

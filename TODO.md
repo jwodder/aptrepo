@@ -78,11 +78,15 @@ Coding & Technologies
       uncompressed Contents files can reach 1 GB.
 - Set the User Agent used for HTTP requests?
 - Give `IndexFile` a(n optional?) `baseurl` parameter?
-- Define classes with [`attrs`](https://attrs.readthedocs.io)?
 - Make the set of known hashes and compression algorithms configurable via
   `config.py`
 - Make `Suite` into a `Mapping`?
 - Stop using `joinurl` to join relative paths?
+- Give `Suite` and `FlatRepository` an `is_synonym`(?) method that compares
+  `self` to another `Suite`/`FlatRepository` based solely on `release`
+  attributes
+- Try to define `PPA` with [`attrs`](https://attrs.readthedocs.io)
+- Make `PPA` hashable and immutable
 
 
 Research

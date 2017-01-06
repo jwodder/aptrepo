@@ -1,26 +1,19 @@
 import logging
 from   os.path          import splitext
+import attr
 from   debian.deb822    import Packages, Sources
 from   property_manager import cached_property
 from   .config          import I18N_INDEX_HASHES
 from   .index           import IndexFile
-from   .internals       import parse_contents, joinurl, simple_repr
+from   .internals       import parse_contents, joinurl
 
 log = logging.getLogger(__name__)
 
+@attr.s(hash=False)
 class Component:
-    def __init__(self, suite, name):
-        # not for public construction
-        self.suite = suite
-        self.name = name
-
-    def __repr__(self):
-        return simple_repr(self)
-
-    def __eq__(self, other):
-        return type(self) is type(other) and \
-            self.suite == other.suite and \
-            self.name == other.name
+    # not for public construction
+    suite = attr.ib()
+    name  = attr.ib()
 
     @property
     def archive(self):

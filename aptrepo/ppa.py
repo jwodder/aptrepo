@@ -2,7 +2,6 @@ import platform
 import re
 from   urllib.parse import quote
 from   .archive     import Archive
-from   .internals   import simple_repr
 
 class PPA:
     def __init__(self, ppa_spec=None, owner=None, name=None):
@@ -26,7 +25,11 @@ class PPA:
         return 'ppa:{0.owner}/{0.name}'.format(self)
 
     def __repr__(self):
-        return simple_repr(self)
+        return '{}.{}({})'.format(
+            __package__,
+            self.__class__.__name__,
+            ', '.join('{}={!r}'.format(k,v) for k,v in vars(self).items()),
+        )
 
     def __eq__(self, other):
         return type(self) is type(other) and \

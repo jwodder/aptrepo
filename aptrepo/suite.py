@@ -1,25 +1,23 @@
-from   .component import Component
-from   .internals import parse_contents, simple_repr
+import attr
+from   property_manager import cached_property
+from   .component       import Component
+from   .internals       import parse_contents
 
+@attr.s(hash=False)
 class Suite:
-    def __init__(self, archive, name, release):
-        # not for public construction
-        self.archive = archive
-        self.name = name
-        self.release = release
-        self.components = [
-            Component(self, c) for c in self.release.fields.get('components',[])
-        ]
-
-    def __repr__(self):
-        return simple_repr(self)
-
-    def __eq__(self, other):
-        # for use in detecting suite synonyms/symlinks
-        return type(self) is type(other) and self.release == other.release
+    # not for public construction
+    archive = attr.ib()
+    name    = attr.ib()
+    release = attr.ib()
 
     def __getitem__(self, component):
         return Component(self, component)
+
+    @cached_property
+    def components(self):
+        return [
+            Component(self, c) for c in self.release.fields.get('components',[])
+        ]
 
     @property
     def architectures(self):

@@ -2,17 +2,18 @@ import collections.abc
 from   functools     import reduce
 from   operator      import add
 from   pathlib       import PurePosixPath
+import attr
 from   debian.deb822 import Deb822
 from   .hashes       import Hash
 from   .index_entry  import IndexEntry
-from   .internals    import detach_signature, simple_repr
+from   .internals    import detach_signature
 
+@attr.s(hash=False)
 class IndexFile(collections.abc.MutableMapping):
     # The keys are all (supposed to be) relative POSIX paths.
 
-    def __init__(self, files, fields):
-        self.files = files
-        self.fields = fields
+    files  = attr.ib()
+    fields = attr.ib()
 
     @classmethod
     def parse_signed(cls, obj):
@@ -43,12 +44,6 @@ class IndexFile(collections.abc.MutableMapping):
                         files[filename] = IndexEntry(filename)
                     files[filename].add_checksum(h, hashsum, size)
         return cls(files, fields)
-
-    def __repr__(self):
-        return simple_repr(self)
-
-    def __eq__(self, other):
-        return type(self) is type(other) and vars(self) == vars(other)
 
     def __contains__(self, filename):
         return filename in self.files

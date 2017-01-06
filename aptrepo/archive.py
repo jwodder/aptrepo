@@ -1,6 +1,7 @@
 import logging
 import re
 from   tempfile     import TemporaryFile
+import attr
 from   bs4          import BeautifulSoup
 import requests
 from   .compression import Compression
@@ -14,20 +15,12 @@ from   .suite       import Suite
 
 log = logging.getLogger(__name__)
 
+@attr.s(hash=False)
 class Archive:
-    def __init__(self, uri):
-        self.uri = uri
+    uri = attr.ib()
+
+    def __attrs_post_init__(self):
         self.session = requests.Session()
-
-    def __repr__(self):
-        return '{}.{}(uri={!r})'.format(
-            __package__,
-            self.__class__.__name__,
-            self.uri,
-        )
-
-    def __eq__(self, other):
-        return type(self) is type(other) and self.uri == other.uri
 
     def _scrape_suite_candidates(self, subdir=None, flat=False):
         path = self.uri
