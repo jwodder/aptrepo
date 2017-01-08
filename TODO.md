@@ -14,18 +14,12 @@ Features
               system keyring in `/etc/apt`
         - Give `Suite`/`FlatRepository` (and/or `ReleaseFile`?) a
           `verify(trusted_keys=self.trusted_keys)` method
-        - Change `Archive.fetch_suite`:
-            - Option 1: Give `Archive.fetch_suite` `verify=BOOL` (default
-              `True`?) and `trusted_keys=self.trusted_keys` parameters for
-              specifying whether to call `verify` immediately after fetching
-              the Release/InRelease file and optionally overriding the
-              Archive's trusted keys
-                - Also give `Archive` an `auto_verify` field for use as the
-                  default value of `fetch_suite(verify=*)`?
-            - Option 2: Rename `Archive.fetch_suite` to `__getitem__` and give
-              `Archive` an `auto_verify=BOOL` attribute that determines whether
-              `verify` is automatically called after fetching Release/InRelease
-              files
+        - Give `Archive.fetch_suite` `verify=BOOL` (default `True`?) and
+          `trusted_keys=self.trusted_keys` parameters for specifying whether to
+          call `verify` immediately after fetching the Release/InRelease file
+          and optionally overriding the Archive's trusted keys
+            - Also give `Archive` an `auto_verify` field for use as the default
+              value of `fetch_suite(verify=*)`?
     - downloading files to disk and using them as local caches (including
       support for Valid-Until in Release files)
         - `.diff/Index` files
@@ -56,7 +50,6 @@ Features
 - Add commands for fetching:
     - Contents files
     - architectures supported by a suite/component?
-    - component release files?
 - Support repositories like Chef's that name the "Components" field in Release
   files "Component"
 - Make the unparsed fields of `ReleaseFile`s available somewhere?
@@ -85,8 +78,6 @@ Coding & Technologies
 - Give `Suite` and `FlatRepository` an `is_synonym`(?) method that compares
   `self` to another `Suite`/`FlatRepository` based solely on `release`
   attributes
-- Try to define `PPA` with [`attrs`](https://attrs.readthedocs.io)
-- Make `PPA` hashable and immutable
 
 
 Research
@@ -100,9 +91,6 @@ Research
     - Can component names contain slashes?
     - Can a Release file list only the hashes for the uncompressed form of a
       file even when the server only provides compressed forms?
-    - Under what conditions do `i18n/` directories not contain an `Index` file?
-    - Under what conditions are individual Translations files listed in the
-      suite's Release file?
     - Under what conditions are clients expected to use guess-and-check instead
       of indices in order to find out whether a file is available?
     - Look into APT's support for translation files in flat repositories

@@ -14,7 +14,7 @@ def main():
                  .format(sys.argv[0]))
     uri = sys.argv[1]
     if uri.startswith("ppa:"):
-        uri = PPA(uri).uri
+        uri = PPA.from_specifier(uri).uri
     subdir = sys.argv[2] if len(sys.argv) == 3 else None
     for suite in Archive(uri).scrape_suite_names(subdir=subdir, flat=flat):
         print(suite)

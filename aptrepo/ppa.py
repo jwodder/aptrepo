@@ -1,40 +1,25 @@
 import platform
 import re
 from   urllib.parse import quote
+import attr
 from   .archive     import Archive
 
+@attr.s(frozen=True)
 class PPA:
-    def __init__(self, ppa_spec=None, owner=None, name=None):
-        if ppa_spec is not None:
-            if owner is not None or name is not None:
-                raise TypeError('Constructor takes ppa_spec XOR owner & name')
-            # based on `softwareproperties.ppa.expand_ppa_line()`
-            m = re.match(r'^ppa:([^/]+)(?:/([^/]+))?$', ppa_spec)
-            if m:
-                self.owner = m.group(1)
-                self.name = m.group(2) or 'ppa'
-            else:
-                raise ValueError('invalid PPA specifier: {!r}'.format(ppa_spec))
-        elif owner is not None and name is not None:
-            self.owner = owner
-            self.name = name
+    owner = attr.ib()
+    name  = attr.ib()
+
+    @classmethod
+    def from_specifier(cls, ppa_spec):
+        # based on `softwareproperties.ppa.expand_ppa_line()`
+        m = re.match(r'^ppa:([^/]+)(?:/([^/]+))?$', ppa_spec)
+        if m:
+            return cls(owner=m.group(1), name=m.group(2) or 'ppa')
         else:
-            raise TypeError('Constructor takes ppa_spec XOR owner & name')
+            raise ValueError('invalid PPA specifier: {!r}'.format(ppa_spec))
 
     def __str__(self):
         return 'ppa:{0.owner}/{0.name}'.format(self)
-
-    def __repr__(self):
-        return '{}.{}({})'.format(
-            __package__,
-            self.__class__.__name__,
-            ', '.join('{}={!r}'.format(k,v) for k,v in vars(self).items()),
-        )
-
-    def __eq__(self, other):
-        return type(self) is type(other) and \
-            self.owner == other.owner and \
-            self.name == other.name
 
     @property
     def uri(self):
