@@ -8,10 +8,11 @@ import argparse
 import json
 import sys
 from   ..      import FlatRepository, for_json
-from   .common import get_component
+from   .common import get_component, verbosity
 
 def main():
     parser = argparse.ArgumentParser()
+    parser.add_argument('-v', '--verbose', action='count', default=0)
     cmds = parser.add_subparsers(title='command', dest='cmd')
     cmd_list = cmds.add_parser('list')
     cmd_list.add_argument('-d', '--distro')
@@ -21,6 +22,7 @@ def main():
     cmd_get.add_argument('lang')
     cmd_get.add_argument('repo', nargs='+')
     args = parser.parse_args()
+    verbosity(args.verbose)
     repo = get_component(args)
     if isinstance(repo, FlatRepository):
         sys.exit('Translations in flat repositories are not yet supported')

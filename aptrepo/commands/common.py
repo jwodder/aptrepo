@@ -5,6 +5,7 @@ repo-spec :=
     [--distro DISTRO] <ppa>
 """
 
+import logging
 import sys
 from   .. import Archive, PPA
 
@@ -30,3 +31,18 @@ def get_component(args):
     else:
         ### TODO: Improve:
         sys.exit('wrong number of arguments')
+
+def verbosity(lvl):
+    if lvl < 1:
+        return
+    elif lvl == 1:
+        log = logging.getLogger('aptrepo')
+        log.setLevel(logging.INFO)
+    elif lvl == 2:
+        log = logging.getLogger()
+        log.setLevel(logging.INFO)
+    else:
+        log = logging.getLogger()
+        log.setLevel(logging.DEBUG)
+    log.addHandler(logging.StreamHandler())
+    logging.captureWarnings(True)

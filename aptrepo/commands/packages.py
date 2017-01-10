@@ -4,7 +4,7 @@ import argparse
 import json
 from   prettytable import PrettyTable
 from   ..          import FlatRepository, dpkg_architecture, for_json
-from   .common     import get_component
+from   .common     import get_component, verbosity
 
 tblcols = ['Package', 'Version', 'Architecture', 'Description']
 
@@ -13,8 +13,10 @@ def main():
     parser.add_argument('-a', '--arch')
     parser.add_argument('-d', '--distro')
     parser.add_argument('-T', '--table', action='store_true')
+    parser.add_argument('-v', '--verbose', action='count', default=0)
     parser.add_argument('repo', nargs='+')
     args = parser.parse_args()
+    verbosity(args.verbose)
     repo = get_component(args)
     if isinstance(repo, FlatRepository):
         packages = repo.fetch_packages()

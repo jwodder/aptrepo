@@ -1,22 +1,21 @@
 """ Usage: aptrepo-suites [-F|--flat] {<uri> | <ppa>} [<subdir>]"""
 
-import sys
-from   .. import Archive, PPA
+import argparse
+from   ..      import Archive, PPA
+from   .common import verbosity
 
 def main():
-    if len(sys.argv) > 1 and sys.argv[1] in ('-F', '--flat'):
-        flat = True
-        del sys.argv[1]
-    else:
-        flat = False
-    if len(sys.argv) not in (2,3):
-        sys.exit('Usage: {} [-F|--flat] {{<uri> | <ppa>}} [<subdir>]'
-                 .format(sys.argv[0]))
-    uri = sys.argv[1]
-    if uri.startswith("ppa:"):
-        uri = PPA.from_specifier(uri).uri
-    subdir = sys.argv[2] if len(sys.argv) == 3 else None
-    for suite in Archive(uri).scrape_suite_names(subdir=subdir, flat=flat):
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-F', '--flat', action='store_true')
+    parser.add_argument('-v', '--verbose', action='count', default=0)
+    parser.add_argument('uri')
+    parser.add_argument('subdir', nargs='?')
+    args = parser.parse_args()
+    verbosity(args.verbose)
+    if args.uri.startswith("ppa:"):
+        args.uri = PPA.from_specifier(args.uri).uri
+    for suite in Archive(args.uri)\
+                    .scrape_suite_names(subdir=args.subdir, flat=args.flat):
         print(suite)
 
 if __name__ == '__main__':

@@ -43,7 +43,6 @@ Features
     - Add a method/command for downloading the latest version of a given
       package in a given repository/set of repositories
 - Add (more) logging
-- Add a way to enable logging from the command line
 - Allow accessing the elements of an `IndexFile`'s `fields` via attribute
   access on the `IndexFile` object?
     - This lookup should be case-insensitive and treat `_` as equivalent to `-`
@@ -78,6 +77,7 @@ Coding & Technologies
 - Give `Suite` and `FlatRepository` an `is_synonym`(?) method that compares
   `self` to another `Suite`/`FlatRepository` based solely on `release`
   attributes
+- Export `Compression`?
 
 
 Research

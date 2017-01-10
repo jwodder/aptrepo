@@ -6,9 +6,6 @@ __url__          = 'https://github.com/jwodder/aptrepo'
 
 from .archive     import Archive
 from .component   import Component
-
-### TODO: Export Compression?
-
 from .errors      import (
                             Error,
                                 FileValidationError,
@@ -19,7 +16,6 @@ from .errors      import (
                                     NoValidCandidatesError,
                                     FileInaccessibleError,
                          )
-
 from .flat        import FlatRepository
 from .hashes      import Hash
 from .index       import IndexFile
