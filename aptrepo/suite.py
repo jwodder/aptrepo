@@ -1,7 +1,7 @@
 import attr
 from   property_manager import cached_property
 from   .component       import Component
-from   .internals       import parse_contents
+from   .internals       import parse_contents, unprefix
 
 @attr.s(hash=False)
 class Suite:
@@ -16,7 +16,8 @@ class Suite:
     @cached_property
     def components(self):
         return [
-            Component(self, c) for c in self.release.fields.get('components',[])
+            Component(self, unprefix(self.name, c))
+            for c in self.release.fields.get('components', [])
         ]
 
     @property

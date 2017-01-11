@@ -96,3 +96,14 @@ Research
     - Look into APT's support for translation files in flat repositories
     - Do all non-flat repositories have nonempty Components fields in their
       Release files?
+    - In suites whose names contain more than one directory level, regarding
+      the fact that the suite's Release file may list component names "prefixed
+      by parts of the path following the directory beneath dists":
+        - Can component names listed in Release files ever be prefixed by some
+          but not all of the aforementioned directories?
+        - Can component names in `sources.list` lines also be prefixed in this
+          way?
+        - Can component names ever contain multiple directory levels in their
+          own right, even having directory names that overlap with those in the
+          suite's name?
+        - How are component names in component-specific Release files listed?

@@ -6,7 +6,6 @@ class ReleaseFile(IndexFile):
     def parse(cls, obj):
         rf = super().parse(obj)
         if 'components' in rf.fields:
-            ### TODO: Remove extra directory paths from Components
             rf.fields["components"] = rf.fields["components"].split()
         if 'architectures' in rf.fields:
             rf.fields["architectures"] = rf.fields["architectures"].split()
