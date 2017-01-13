@@ -7,6 +7,8 @@ class ReleaseFile(IndexFile):
         rf = super().parse(obj)
         if 'components' in rf.fields:
             rf.fields["components"] = rf.fields["components"].split()
+        elif 'component' in rf.fields:
+            rf.fields["components"] = rf.fields.pop("component").split()
         if 'architectures' in rf.fields:
             rf.fields["architectures"] = rf.fields["architectures"].split()
         ### TODO: Split Signed-By field

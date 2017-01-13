@@ -49,8 +49,6 @@ Features
 - Add commands for fetching:
     - Contents files
     - architectures supported by a suite/component?
-- Support repositories like Chef's that name the "Components" field in Release
-  files "Component"
 - Make the unparsed fields of `ReleaseFile`s available somewhere?
 
 
