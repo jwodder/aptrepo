@@ -76,6 +76,8 @@ Coding & Technologies
   `self` to another `Suite`/`FlatRepository` based solely on `release`
   attributes
 - Export `Compression`?
+- Rename `IndexFile`? (because that term technically includes Packages and
+  Sources files, too, it seems)
 
 
 Research
