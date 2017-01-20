@@ -1,7 +1,8 @@
 import attr
 from   property_manager import cached_property
 from   .component       import Component
-from   .internals       import parse_contents, unprefix
+from   .contents        import parse_contents
+from   .internals       import unprefix
 
 @attr.s(hash=False)
 class Suite:

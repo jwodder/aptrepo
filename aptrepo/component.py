@@ -4,8 +4,9 @@ import attr
 from   debian.deb822    import Packages, Sources
 from   property_manager import cached_property
 from   .config          import I18N_INDEX_HASHES
+from   .contents        import parse_contents
 from   .index           import IndexFile
-from   .internals       import parse_contents, joinurl
+from   .internals       import joinurl
 
 log = logging.getLogger(__name__)
 
