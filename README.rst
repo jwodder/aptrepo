@@ -10,7 +10,7 @@
 `GitHub <https://github.com/jwodder/aptrepo>`_
 | `Issues <https://github.com/jwodder/aptrepo/issues>`_
 
-``aptrepo`` is a developmental attempt at a pure Python library for fetching
+``aptrepo`` is an in-development attempt at a pure Python library for fetching
 data from arbitrary APT repositories (without having to add them to your
 ``sources.list`` first).  Currently, its main attractions are the programs in
 its command-line interface:

@@ -27,14 +27,14 @@ setup(
     url='https://github.com/jwodder/aptrepo',
 
     install_requires=[
-        'attrs>=16.3.0,<17',
-        'beautifulsoup4>=4.4.0,<5',
+        'attrs~=16.3',
+        'beautifulsoup4~=4.4',
         # python-debian needs chardet, but it doesn't list it in its setup.py!
         'chardet',
         'prettytable>=0.7.2,<1',
         'property-manager',
         'python-debian>=0.1.23',
-        'requests>=2.2.0,<3',
+        'requests~=2.2',
     ],
 
     extras_require={
