@@ -70,6 +70,8 @@ Coding & Technologies
 - Give `IndexFile` a(n optional?) `baseurl` parameter?
 - Make the set of known hashes and compression algorithms configurable via
   `config.py`
+- Make the values in `config.py` be set & retrieved via functions/classes
+  instead of directly as variables?
 - Make `Suite` into a `Mapping`?
 - Stop using `joinurl` to join relative paths?
 - Give `Suite` and `FlatRepository` an `is_synonym`(?) method that compares

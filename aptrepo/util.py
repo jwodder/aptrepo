@@ -1,5 +1,5 @@
 import collections
-from   datetime    import datetime
+from   datetime import datetime
 import subprocess
 
 def dpkg_architecture():

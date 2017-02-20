@@ -1,3 +1,5 @@
+import attr
+
 class Error(Exception):
     pass
 
@@ -6,44 +8,53 @@ class FileValidationError(Error, ValueError):
     # Subclasses are expected to have `filename` attributes
     pass
 
+
+@attr.s(repr=False, hash=False)
 class NoSecureChecksumsError(FileValidationError):
-    def __init__(self, filename):
-        self.filename = filename
-        super().__init__(
-            '{!r}: no secure checksums to validate against'.format(filename)
-        )
+    filename = attr.ib()
 
+    def __str__(self):
+        return '{!r}: no secure checksums to validate against'\
+               .format(self.filename)
+
+
+@attr.s(repr=False, hash=False)
 class HashMismatchError(FileValidationError):
-    def __init__(self, filename, hashname, expected, received):
-        self.filename = filename
-        self.hashname = hashname
-        self.expected = expected
-        self.received = received
-        super().__init__(
-            '{} hash of {!r} was {!r}, expected {!r}'
-            .format(hashname, filename, received, expected)
-        )
+    filename = attr.ib()
+    hashname = attr.ib()
+    expected = attr.ib()
+    received = attr.ib()
 
+    def __str__(self):
+        return '{0.hashname} hash of {0.filename!r} was {0.received!r},' \
+               ' expected {0.expected!r}'.format(self)
+
+
+@attr.s(repr=False, hash=False)
 class SizeMismatchError(FileValidationError):
-    def __init__(self, filename, expected, received):
-        self.filename = filename
-        self.expected = expected
-        self.received = received
-        super().__init__(
-            'size of {!r} was {}, expected {}'
-            .format(filename, received, expected)
-        )
+    filename = attr.ib()
+    expected = attr.ib()
+    received = attr.ib()
+
+    def __str__(self):
+        return 'size of {0.filename!r} was {0.received}, expected {0.expected}'\
+               .format(self)
 
 
+@attr.s(repr=False, hash=False)
 class CannotFetchFileError(Error):
-    REASON = 'reason unknown'
+    filename = attr.ib()
 
-    def __init__(self, filename):
-        self.filename = filename
-        super().__init__('{!r}: {}'.format(filename, self.REASON))
+    def __str__(self):
+        return '{!r}: reason unknown'.format(self.filename)
+
 
 class NoValidCandidatesError(CannotFetchFileError):
-    REASON = 'no matching entries with secure checksums listed in index'
+    def __str__(self):
+        return '{!r}: no matching entry with secure checksums listed in index'\
+               .format(self.filename)
+
 
 class FileInaccessibleError(CannotFetchFileError):
-    REASON = 'all requests to server failed'
+    def __str__(self):
+        return '{!r}: all requests to server failed'.format(self.filename)

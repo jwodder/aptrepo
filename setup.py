@@ -17,7 +17,7 @@ with open(join(dirname(__file__), 'README.rst')) as fp:
 setup(
     name='aptrepo',
     version=version,
-    packages=find_packages(include=['aptrepo', 'aptrepo.*']),
+    packages=find_packages(),
     license='MIT',
     author='John Thorvald Wodder II',
     author_email='aptrepo@varonathe.org',
