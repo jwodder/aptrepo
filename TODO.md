@@ -43,9 +43,6 @@ Features
     - Add a method/command for downloading the latest version of a given
       package in a given repository/set of repositories
 - Add (more) logging
-- Allow accessing the elements of an `IndexFile`'s `fields` via attribute
-  access on the `IndexFile` object?
-    - This lookup should be case-insensitive and treat `_` as equivalent to `-`
 - Add commands for fetching:
     - Contents files
     - architectures supported by a suite/component?

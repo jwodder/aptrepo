@@ -1,5 +1,6 @@
 from   collections import namedtuple
 import re
+from   .archive    import Archive
 
 class AptSource(namedtuple('AptSource', 'deb options uri suite components')):
     def __str__(self):
@@ -11,6 +12,15 @@ class AptSource(namedtuple('AptSource', 'deb options uri suite components')):
         if self.components:
             sline += ' ' + ' '.join(self.components)
         return sline
+
+    def repositories(self):
+        ### TODO: Incorporate `options` (and `deb`?) somehow
+        suite = Archive(self.uri).fetch_suite(self.suite)
+        if self.suite.endswith('/'):
+            return [suite]
+        else:
+            return [suite[c] for c in self.components]
+
 
 def parse_sources(fp):
     for line in fp:
