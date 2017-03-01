@@ -90,4 +90,14 @@ class Component:
         )
         return parse_contents(contents)
 
+    def as_apt_source(self, deb='deb'):
+        from .sources import AptSource
+        return AptSource(
+            deb=deb,
+            options={},
+            uri=self.archive.uri,
+            suite=self.suite.name,
+            components=[self.name],
+        )
+
     ### TODO: def fetch_release_file(self):  # Rethink name
