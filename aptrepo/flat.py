@@ -31,3 +31,13 @@ class FlatRepository:
     def acquire_by_hash(self):
         ### TODO: Do flat repositories even support Acquire By Hash?
         return self.release.fields.get('acquire-by-hash', False)
+
+    def as_apt_source(self, deb='deb'):
+        from .sources import AptSource
+        return AptSource(
+            deb=deb,
+            options={},
+            uri=self.archive.uri,
+            suite=self.suite.name,
+            components=[],
+        )
