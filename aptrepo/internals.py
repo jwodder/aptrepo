@@ -1,24 +1,4 @@
-from   pathlib import PurePosixPath
-import re
-
-def detach_signature(txt):
-    # See RFC 4880, section 7
-    # cf. debian.deb822.Deb822.split_gpg_and_payload (which doesn't handle dash
-    # escaping and doesn't verify that the input is well-formed)
-    m = re.match(r'^\s*-----BEGIN PGP SIGNED MESSAGE-----\n'
-                 r'(?:[^\n]+\n)*'
-                 r'\n'
-                 r'(.*)\n'
-                 r'-----BEGIN PGP SIGNATURE-----\n'
-                 r'(.*)\n'
-                 r'-----END PGP SIGNATURE-----\s*$',
-                 re.sub(r'\r\n?', '\n', txt), flags=re.S)
-    if m:
-        ### TODO: Also return the armor headers?
-        return (re.sub('^- ', '', m.group(1), flags=re.M).replace('\n', '\r\n'),
-                m.group(2))
-    else:
-        return (txt, None)
+from pathlib import PurePosixPath
 
 def joinurl(url, *paths):
     if not url.endswith('/'):

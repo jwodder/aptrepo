@@ -21,6 +21,7 @@ from .flat        import FlatRepository
 from .hashes      import Hash
 from .index       import IndexFile
 from .index_entry import IndexEntry
+from .pgp_signed  import PGPSigned
 from .ppa         import PPA
 from .release     import ReleaseFile
 from .sources     import AptSource, parse_sources
@@ -51,6 +52,7 @@ __all__ = [
     'IndexFile',
     'NoSecureChecksumsError',
     'NoValidCandidatesError',
+    'PGPSigned',
     'PPA',
     'ReleaseFile',
     'SizeMismatchError',

@@ -6,7 +6,7 @@ import attr
 from   debian.deb822 import Deb822
 from   .hashes       import Hash
 from   .index_entry  import IndexEntry
-from   .internals    import detach_signature
+from   .pgp_signed   import PGPSigned
 
 @attr.s
 class IndexFile(collections.abc.MutableMapping):
@@ -22,9 +22,9 @@ class IndexFile(collections.abc.MutableMapping):
             obj = reduce(add, obj)
         if isinstance(obj, bytes):
             obj = obj.decode('utf-8')
-        payload, sig = detach_signature(obj)
-        ### TODO: Do something with sig!
-        return cls.parse(payload)
+        clearsign = PGPSigned.from_cleartext(obj)
+        ### clearsign.verify(???)
+        return cls.parse(clearsign.body)
 
     @classmethod
     def parse(cls, obj):
