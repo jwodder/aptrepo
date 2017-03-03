@@ -75,6 +75,8 @@ Coding & Technologies
 - Export `Compression`?
 - Rename `IndexFile`? (because that term technically includes Packages and
   Sources files, too, it seems)
+- Test as much as possible
+- Split the `sources.list` parsing into its own package?
 
 
 Research

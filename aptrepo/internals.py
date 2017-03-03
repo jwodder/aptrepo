@@ -1,4 +1,4 @@
-from   pathlib     import PurePosixPath
+from   pathlib import PurePosixPath
 import re
 
 def detach_signature(txt):
