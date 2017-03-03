@@ -25,7 +25,12 @@ from .ppa         import PPA
 from .release     import ReleaseFile
 from .sources     import AptSource, parse_sources
 from .suite       import Suite
-from .util        import dpkg_architecture, dpkg_foreign_architectures, for_json
+from .util        import (
+                            dpkg_architecture,
+                            dpkg_foreign_architectures,
+                            for_json,
+                            ubuntu_release,
+                         )
 
 import logging
 logging.getLogger(__name__).addHandler(logging.NullHandler())
@@ -55,4 +60,5 @@ __all__ = [
     'for_json',
     'parse_contents',
     'parse_sources',
+    'ubuntu_release',
 ]

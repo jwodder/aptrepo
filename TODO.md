@@ -35,7 +35,6 @@ Features
     - Add an option for downgrading hash mismatch errors to warnings?
         - Downgrade by default?
 
-- Give PPA and FlatRepository methods for converting to an `AptSource` object
 - Give PPA methods for fetching data from Launchpad (pubkey, supported Ubuntu
   releases?, etc.)
 - Add methods for actually downloading packages

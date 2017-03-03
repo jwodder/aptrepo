@@ -1,5 +1,6 @@
 import collections
 from   datetime import datetime
+import platform
 import subprocess
 
 def dpkg_architecture():
@@ -30,3 +31,8 @@ def for_json(obj):
         else:
             data["__class__"] = type(obj).__name__
             return data
+
+def ubuntu_release():
+    ### TODO: Use `lsb_release` (the command or the Python module) instead?
+    ### TODO: Error when not on Ubuntu or derivatives
+    return platform.linux_distribution()[2]

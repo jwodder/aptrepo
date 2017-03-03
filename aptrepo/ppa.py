@@ -1,8 +1,8 @@
-import platform
 import re
 from   urllib.parse import quote
 import attr
 from   .archive     import Archive
+from   .util        import ubuntu_release
 
 @attr.s(frozen=True)
 class PPA:
@@ -30,7 +30,17 @@ class PPA:
 
     def repository(self, distro=None):
         if distro is None:
-            ### TODO: Use `lsb_release` (the command or the Python module)
-            ### instead?
-            distro = platform.linux_distribution()[2]
+            distro = ubuntu_release()
         return Archive(self.uri).fetch_suite(distro)['main']
+
+    def as_apt_source(self, distro=None, deb='deb'):
+        from .sources import AptSource
+        if distro is None:
+            distro = ubuntu_release()
+        return AptSource(
+            deb=deb,
+            options={},
+            uri=self.uri,
+            suite=distro,
+            components=['main'],
+        )
