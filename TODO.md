@@ -1,6 +1,7 @@
 - Add docstrings
 - Determine the minimum necessary versions of chardet, property-manager, and
   python-apt needed
+- Add a `python_requires` option to `setup.py`?
 
 Features
 --------
@@ -44,7 +45,7 @@ Features
 - Add commands for fetching:
     - Contents files
     - architectures supported by a suite/component?
-- Make the unparsed fields of `ReleaseFile`s available somewhere?
+- Support setting the architecture and Ubuntu release in a config file
 
 
 Coding & Technologies

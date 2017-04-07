@@ -5,6 +5,8 @@ Usage:
 """
 
 import argparse
+import sys
+from   ..      import FlatRepository
 from   .common import get_suite, verbosity
 
 def main():
@@ -14,8 +16,10 @@ def main():
     parser.add_argument('repo', nargs='+')
     args = parser.parse_args()
     verbosity(args.verbose)
-    ### TODO: Fail faster if the user specifies a flat repository?
-    for c in get_suite(args).components:
+    suite = get_suite(args)
+    if isinstance(suite, FlatRepository):
+        sys.exit("Flat repositories don't have components")
+    for c in suite.components:
         print(c.name)
 
 if __name__ == '__main__':
