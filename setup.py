@@ -25,6 +25,7 @@ setup(
     description='Examining & traversing APT repositories',
     long_description=long_desc,
     url='https://github.com/jwodder/aptrepo',
+    python_requires='~=3.4',
 
     install_requires=[
         'attrs~=16.3',

@@ -1,7 +1,8 @@
 - Add docstrings
 - Determine the minimum necessary versions of chardet, property-manager, and
   python-apt needed
-- Add a `python_requires` option to `setup.py`?
+- Tag the code at each point it was stable?
+    - Use `setuptools_scm` for managing the version number?
 
 Features
 --------
@@ -24,6 +25,7 @@ Features
     - downloading files to disk and using them as local caches (including
       support for Valid-Until in Release files)
         - `.diff/Index` files
+        - Look into how pip does its caching
     - parsing the system's sources.list?
         - Use `apt_pkg.config` to get the locations of sources.list and
           sources.list.d
@@ -62,7 +64,7 @@ Coding & Technologies
   temporary files?
     - No.  Uncompressed Packages files can be as large as 43 MB, and
       uncompressed Contents files can reach 1 GB.
-- Set the User Agent used for HTTP requests?
+- Set the User Agent used for HTTP requests
 - Give `IndexFile` a(n optional?) `baseurl` parameter?
 - Make the set of known hashes and compression algorithms configurable via
   `config.py`
