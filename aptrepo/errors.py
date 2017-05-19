@@ -9,7 +9,7 @@ class FileValidationError(Error, ValueError):
     pass
 
 
-@attr.s(repr=False, hash=False)
+@attr.s(repr=False)
 class NoSecureChecksumsError(FileValidationError):
     filename = attr.ib()
 
@@ -18,7 +18,7 @@ class NoSecureChecksumsError(FileValidationError):
                .format(self.filename)
 
 
-@attr.s(repr=False, hash=False)
+@attr.s(repr=False)
 class HashMismatchError(FileValidationError):
     filename = attr.ib()
     hashname = attr.ib()
@@ -30,7 +30,7 @@ class HashMismatchError(FileValidationError):
                ' expected {0.expected!r}'.format(self)
 
 
-@attr.s(repr=False, hash=False)
+@attr.s(repr=False)
 class SizeMismatchError(FileValidationError):
     filename = attr.ib()
     expected = attr.ib()
@@ -41,7 +41,7 @@ class SizeMismatchError(FileValidationError):
                .format(self)
 
 
-@attr.s(repr=False, hash=False)
+@attr.s(repr=False)
 class CannotFetchFileError(Error):
     filename = attr.ib()
 

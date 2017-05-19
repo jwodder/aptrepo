@@ -1,7 +1,7 @@
 import attr
 from   debian.deb822 import Packages, Sources
 
-@attr.s(hash=False)
+@attr.s
 class FlatRepository:
     # not for public construction
     archive = attr.ib()

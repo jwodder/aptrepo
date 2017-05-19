@@ -4,7 +4,7 @@ from   .component       import Component
 from   .contents        import parse_contents
 from   .internals       import unprefix
 
-@attr.s(hash=False)
+@attr.s
 class Suite:
     # not for public construction
     archive = attr.ib()

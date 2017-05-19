@@ -8,7 +8,7 @@ from   .hashes       import Hash
 from   .index_entry  import IndexEntry
 from   .internals    import detach_signature
 
-@attr.s(hash=False)
+@attr.s
 class IndexFile(collections.abc.MutableMapping):
     # The keys are all (supposed to be) relative POSIX paths.
 

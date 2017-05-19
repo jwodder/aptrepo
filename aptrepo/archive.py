@@ -15,7 +15,7 @@ from   .suite       import Suite
 
 log = logging.getLogger(__name__)
 
-@attr.s(hash=False)
+@attr.s
 class Archive:
     uri = attr.ib()
 

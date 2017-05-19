@@ -28,7 +28,7 @@ setup(
     python_requires='~=3.4',
 
     install_requires=[
-        'attrs~=16.3',
+        'attrs~=17.1',
         'beautifulsoup4~=4.4',
         # python-debian needs chardet, but it doesn't list it in its setup.py!
         'chardet',

@@ -4,7 +4,7 @@ from   .errors import HashMismatchError, SizeMismatchError, \
                         NoSecureChecksumsError
 from   .hashes import Hash
 
-@attr.s(hash=False)
+@attr.s
 class IndexEntry:
     filename = attr.ib()  # string
     size     = attr.ib(default=None, init=False)

@@ -10,7 +10,7 @@ from   .internals       import joinurl
 
 log = logging.getLogger(__name__)
 
-@attr.s(hash=False)
+@attr.s
 class Component:
     # not for public construction
     suite = attr.ib()
