@@ -1,0 +1,4 @@
+include CHANGELOG.* CONTRIBUTORS.* LICENSE test/conftest.py tox.ini
+graft docs
+prune docs/_build
+global-exclude *.py[cod] __pycache__
