@@ -93,4 +93,4 @@ class IndexFile(collections.abc.MutableMapping):
                 pass
             else:
                 subfiles[str(subpath)] = entry
-        return self.__class__(files=subfiles, fields=self.fields.copy())
+        return type(self)(files=subfiles, fields=self.fields.copy())

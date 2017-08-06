@@ -2,7 +2,7 @@
 - Determine the minimum necessary versions of chardet, property-manager, and
   python-apt needed
 - Tag the code at each point it was stable?
-    - Use `setuptools_scm` for managing the version number?
+- Give the commands `--version` options
 
 Features
 --------
@@ -38,7 +38,7 @@ Features
     - Add an option for downgrading hash mismatch errors to warnings?
         - Downgrade by default?
 
-- Give PPA methods for fetching data from Launchpad (pubkey, supported Ubuntu
+- Give `PPA` methods for fetching data from Launchpad (pubkey, supported Ubuntu
   releases?, etc.)
 - Add methods for actually downloading packages
     - Add a method/command for downloading the latest version of a given
@@ -60,11 +60,6 @@ Coding & Technologies
 - It seems that python-debian can be used to parse Release files (including
   handling the PGP signature in InRelease files) and handle compressed files;
   look into this
-- Read downloaded files into memory in their entirety instead of using
-  temporary files?
-    - No.  Uncompressed Packages files can be as large as 43 MB, and
-      uncompressed Contents files can reach 1 GB.
-- Set the User Agent used for HTTP requests
 - Give `IndexFile` a(n optional?) `baseurl` parameter?
 - Make the set of known hashes and compression algorithms configurable via
   `config.py`
@@ -80,6 +75,9 @@ Coding & Technologies
   Sources files, too, it seems)
 - Test as much as possible
 - Split the `sources.list` parsing into its own package?
+- Use `pydpkg` instead of `python-debian`?
+- Use `distro` to implement `ubuntu_release()`?  (It won't make a difference on
+  Trusty)
 
 
 Research

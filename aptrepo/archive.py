@@ -1,9 +1,11 @@
 import logging
+import platform
 import re
 from   tempfile     import TemporaryFile
 import attr
 from   bs4          import BeautifulSoup
 import requests
+from   .            import __url__, __version__
 from   .compression import Compression
 from   .config      import ITER_CONTENT_SIZE
 from   .errors      import NoValidCandidatesError, FileInaccessibleError, \
@@ -15,12 +17,21 @@ from   .suite       import Suite
 
 log = logging.getLogger(__name__)
 
+USER_AGENT = 'aptrepo/{} ({}) requests/{} {}/{}'.format(
+    __version__,
+    __url__,
+    requests.__version__,
+    platform.python_implementation(),
+    platform.python_version(),
+)
+
 @attr.s
 class Archive:
     uri = attr.ib()
 
     def __attrs_post_init__(self):
         self.session = requests.Session()
+        self.session.headers["User-Agent"] = USER_AGENT
 
     def _scrape_suite_candidates(self, subdir=None, flat=False):
         path = self.uri
