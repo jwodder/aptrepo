@@ -85,7 +85,7 @@ or more times to enable INFO or DEBUG logging.
 Installation
 ============
 ``aptrepo`` requires Python 3.4 or higher.  Just use version 6.0 or higher of
-`pip <https://pip.pypa.io/>`_ for Python 3 (You have pip, right?) to install
+`pip <https://pip.pypa.io>`_ for Python 3 (You have pip, right?) to install
 ``aptrepo`` and its dependencies::
 
     pip3 install git+https://github.com/jwodder/aptrepo.git

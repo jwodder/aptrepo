@@ -41,6 +41,8 @@ Features
 - Give `PPA` methods for fetching data from Launchpad (pubkey, supported Ubuntu
   releases?, etc.)
 - Add methods for actually downloading packages
+    - Add `Package` and `Source` classes (cf. the ones in python-debian) with
+      `download_url` properties and `download(dest, check=True)` methods
     - Add a method/command for downloading the latest version of a given
       package in a given repository/set of repositories
 - Add (more) logging
@@ -78,6 +80,8 @@ Coding & Technologies
 - Use `pydpkg` instead of `python-debian`?
 - Use `distro` to implement `ubuntu_release()`?  (It won't make a difference on
   Trusty)
+- Use <https://github.com/takluyver/requests_download> for downloading files?
+  Cf. the examples for using it with progress bars and hash checking.
 
 
 Research
@@ -94,6 +98,9 @@ Research
     - Under what conditions are clients expected to use guess-and-check instead
       of indices in order to find out whether a file is available?
     - Look into APT's support for translation files in flat repositories
+        - The `Acquire::IndexTargets::deb::Translations::flatMetaKey` APT
+          config value on Xenial suggests that translations in flat
+          repositories are stored at `$ARCHIVE/$SUITE/$LANGUAGE_CODE`.
     - Do all non-flat repositories have nonempty Components fields in their
       Release files?
     - In suites whose names contain more than one directory level, regarding
