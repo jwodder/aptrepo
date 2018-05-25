@@ -8,7 +8,7 @@ from   .hashes import Hash
 class IndexEntry:
     filename = attr.ib()  # string
     size     = attr.ib(default=None, init=False)
-    hashes   = attr.ib(default=attr.Factory(dict), init=False)
+    hashes   = attr.ib(factory=dict, init=False)
 
     def add_checksum(self, algorithm: Hash, digest: str, size: int) -> None:
         if self.size is None:
