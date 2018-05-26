@@ -3,6 +3,7 @@
   python-apt needed
 - Tag the code at each point it was stable?
 - Give the commands `--version` options
+- Look into newer versions of python-debian
 
 Features
 --------
