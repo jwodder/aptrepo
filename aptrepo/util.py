@@ -1,6 +1,6 @@
-import collections
-from   datetime   import datetime
-from   subprocess import check_output
+from collections.abc import Iterator, Mapping
+from datetime        import datetime
+from subprocess      import check_output
 
 def dpkg_architecture():
     # cf. <https://deb-pkg-tools.readthedocs.io/en/latest/#deb_pkg_tools.utils.find_debian_architecture>
@@ -20,10 +20,10 @@ def for_json(obj):
         return obj.for_json()
     elif isinstance(obj, datetime):
         return obj.isoformat()
-    elif isinstance(obj, collections.Mapping):
+    elif isinstance(obj, Mapping):
         # This includes all types in debian.deb822.
         return {str(k): obj[k] for k in obj}
-    elif isinstance(obj, (collections.Iterator, tuple, set, frozenset)):
+    elif isinstance(obj, (Iterator, tuple, set, frozenset)):
         ### TODO: Sort sets and frozensets?
         return list(obj)
     else:
