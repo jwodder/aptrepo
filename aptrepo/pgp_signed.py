@@ -11,6 +11,16 @@ class PGPSigned:
     def verify(self, trusted_keys=None):
         raise NotImplementedError
 
+        subprocess.check_call([
+            'gpg',
+            '--verify',
+            '--trusted-key', ... ,
+            '--trust-model', 'direct',  ### ???
+
+            ??? signature,
+            ??? body,
+        ])
+
     @classmethod
     def from_cleartext(cls, txt):
         # See RFC 4880, section 7

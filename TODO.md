@@ -23,6 +23,16 @@ Features
           and optionally overriding the Archive's trusted keys
             - Also give `Archive` an `auto_verify` field for use as the default
               value of `fetch_suite(verify=*)`?
+        - Try to outsource the PGP stuff to one of the following Python
+          packages:
+            - OpenPGP
+            - PGPy
+            - pygpgme
+            - pyme
+            - Wrappers around `gpg(1)`:
+                - pyassuan
+                - gnupg
+                - python-gnupg
     - downloading files to disk and using them as local caches (including
       support for Valid-Until in Release files)
         - `.diff/Index` files
