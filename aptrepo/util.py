@@ -1,6 +1,7 @@
-from collections.abc import Iterator, Mapping
-from datetime        import datetime
-from subprocess      import check_output
+from collections.abc      import Iterator, Mapping
+from datetime             import datetime
+from email.headerregistry import DateHeader
+from subprocess           import check_output
 
 def dpkg_architecture():
     # cf. <https://deb-pkg-tools.readthedocs.io/en/latest/#deb_pkg_tools.utils.find_debian_architecture>
@@ -43,3 +44,14 @@ def ubuntu_release():
     if relinfo['Distributor ID:'] != 'Ubuntu':
         raise RuntimeError('not running on Ubuntu')
     return relinfo['Codename:']
+
+def parse_rfc822_datetime(s):  # (str) -> datetime
+    # Like email.utils.parsedate_to_datetime, but not scheduled for removal by
+    # PEP 594.
+    ### TODO: Is this really how you're supposed to parse fields with
+    ### email.headerregistry?
+    kwds = {"defects": []}
+    DateHeader.parse(s, kwds)
+    if kwds["defects"]:
+        raise kwds["defects"][0]
+    return kwds["datetime"]

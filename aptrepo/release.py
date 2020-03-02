@@ -1,5 +1,5 @@
-from email.utils import parsedate_to_datetime
-from .index      import IndexFile
+from .index import IndexFile
+from .util  import parse_rfc822_datetime
 
 class ReleaseFile(IndexFile):
     @classmethod
@@ -18,7 +18,7 @@ class ReleaseFile(IndexFile):
         for f in ('date', 'valid-until'):
             if f in rf.fields:
                 try:
-                    rf.fields[f] = parsedate_to_datetime(rf.fields[f])
-                except (TypeError, ValueError):
+                    rf.fields[f] = parse_rfc822_datetime(rf.fields[f])
+                except Exception:
                     pass
         return rf
