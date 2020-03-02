@@ -1,6 +1,5 @@
 - Add docstrings
-- Determine the minimum necessary versions of chardet, property-manager, and
-  python-apt needed
+- Determine the minimum necessary versions of chardet and python-apt needed
 - Tag the code at each point it was stable?
 - Give the commands `--version` options
 - Look into newer versions of python-debian
@@ -83,6 +82,7 @@ Coding & Technologies
   Trusty)
 - Use <https://github.com/takluyver/requests_download> for downloading files?
   Cf. the examples for using it with progress bars and hash checking.
+- Use `tempfile.SpooledTemporaryFile` for creating temporary files?
 
 
 Research

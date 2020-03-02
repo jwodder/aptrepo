@@ -7,6 +7,9 @@
     :target: https://opensource.org/licenses/MIT
     :alt: MIT License
 
+.. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
+    :target: https://saythanks.io/to/jwodder
+
 `GitHub <https://github.com/jwodder/aptrepo>`_
 | `Issues <https://github.com/jwodder/aptrepo/issues>`_
 
@@ -88,7 +91,7 @@ Installation
 `pip <https://pip.pypa.io>`_ for Python 3 (You have pip, right?) to install
 ``aptrepo`` and its dependencies::
 
-    pip3 install git+https://github.com/jwodder/aptrepo.git
+    python3 -m pip install git+https://github.com/jwodder/aptrepo.git
 
 Installing inside a `virtual environment
 <http://docs.python-guide.org/en/latest/dev/virtualenvs/>`_ is recommended,
