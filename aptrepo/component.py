@@ -24,13 +24,13 @@ class Component:
         fp = self.suite.fetch_indexed_file(
             joinurl(self.name, 'binary-' + arch, 'Packages')
         )
-        return Packages.iter_paragraphs(fp, use_apt_pkg=True)
+        return Packages.iter_paragraphs(fp, use_apt_pkg=False)
 
     def fetch_sources(self):
         fp = self.suite.fetch_indexed_file(
             joinurl(self.name, 'source', 'Sources')
         )
-        return Sources.iter_paragraphs(fp, use_apt_pkg=True)
+        return Sources.iter_paragraphs(fp, use_apt_pkg=False)
 
     def fetch_i18n_index(self):
         dex = self.suite.fetch_indexed_file(joinurl(self.name, 'i18n', 'Index'))
@@ -73,7 +73,7 @@ class Component:
             index,
             allowed_hashes=I18N_INDEX_HASHES if self.using_i18n_index else None,
         )
-        return Packages.iter_paragraphs(fp, use_apt_pkg=True)
+        return Packages.iter_paragraphs(fp, use_apt_pkg=False)
 
     @property
     def has_contents(self):
