@@ -14,12 +14,12 @@ class IndexEntry:
         if self.size is None:
             self.size = size
         elif self.size != size:
-            raise ValueError('{}: conflicting filesizes in index'
-                             .format(self.filename))
+            raise ValueError(f'{self.filename}: conflicting filesizes in index')
         digest = digest.lower()
         if algorithm in self.hashes and self.hashes[algorithm] != digest:
-            raise ValueError('{}: conflicting {} digests in index'
-                             .format(self.filename, algorithm.name))
+            raise ValueError(
+                f'{self.filename}: conflicting {algorithm.name} digests in index'
+            )
         self.hashes[algorithm] = digest
 
     #def iter_check(self, blob_iter: Iterable[bytes]) -> Iterator[bytes]:

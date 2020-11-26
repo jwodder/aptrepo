@@ -33,7 +33,7 @@ def main():
         for desc in repo.fetch_translation(args.lang):
             print(json.dumps(desc, default=for_json))
     else:
-        assert False, 'No path defined for command {0!r}'.format(args.cmd)
+        assert False, f'No path defined for command {args.cmd!r}'
 
 if __name__ == '__main__':
     main()

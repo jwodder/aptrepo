@@ -16,10 +16,10 @@ class PPA:
         if m:
             return cls(owner=m.group(1), name=m.group(2) or 'ppa')
         else:
-            raise ValueError('invalid PPA specifier: {!r}'.format(ppa_spec))
+            raise ValueError(f'invalid PPA specifier: {ppa_spec!r}')
 
     def __str__(self):
-        return 'ppa:{0.owner}/{0.name}'.format(self)
+        return f'ppa:{self.owner}/{self.name}'
 
     @property
     def uri(self):

@@ -6,9 +6,9 @@ class AptSource(namedtuple('AptSource', 'deb options uri suite components')):
     def __str__(self):
         sline = self.deb
         if self.options:
-            sline += ' ' + ' '.join('{}={}'.format(k,v) if v is not None else k
+            sline += ' ' + ' '.join(f'{k}={v}' if v is not None else k
                                     for k,v in self.options.items())
-        sline += ' {0.uri} {0.suite}'.format(self)
+        sline += f' {self.uri} {self.suite}'
         if self.components:
             sline += ' ' + ' '.join(self.components)
         return sline
@@ -40,5 +40,4 @@ def parse_sources(fp):
             yield AptSource(deb=deb, options=options, uri=words[0],
                             suite=words[1], components=words[2:])
         else:
-            raise ValueError('{!r}: could not parse sources.list entry'
-                             .format(line))
+            raise ValueError(f'{line!r}: could not parse sources.list entry')

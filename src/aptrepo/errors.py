@@ -14,8 +14,7 @@ class NoSecureChecksumsError(FileValidationError):
     filename = attr.ib()
 
     def __str__(self):
-        return '{!r}: no secure checksums to validate against'\
-               .format(self.filename)
+        return f'{self.filename!r}: no secure checksums to validate against'
 
 
 @attr.s(repr=False)
@@ -26,8 +25,10 @@ class HashMismatchError(FileValidationError):
     received = attr.ib()
 
     def __str__(self):
-        return '{0.hashname} hash of {0.filename!r} was {0.received!r},' \
-               ' expected {0.expected!r}'.format(self)
+        return (
+            f'{self.hashname} hash of {self.filename!r} was {self.received!r},'
+            f' expected {self.expected!r}'
+        )
 
 
 @attr.s(repr=False)
@@ -37,8 +38,10 @@ class SizeMismatchError(FileValidationError):
     received = attr.ib()
 
     def __str__(self):
-        return 'size of {0.filename!r} was {0.received}, expected {0.expected}'\
-               .format(self)
+        return (
+            f'size of {self.filename!r} was {self.received},'
+            f' expected {self.expected}'
+        )
 
 
 @attr.s(repr=False)
@@ -46,15 +49,17 @@ class CannotFetchFileError(Error):
     filename = attr.ib()
 
     def __str__(self):
-        return '{!r}: reason unknown'.format(self.filename)
+        return f'{self.filename!r}: reason unknown'
 
 
 class NoValidCandidatesError(CannotFetchFileError):
     def __str__(self):
-        return '{!r}: no matching entry with secure checksums listed in index'\
-               .format(self.filename)
+        return (
+            f'{self.filename!r}: no matching entry with secure checksums listed'
+            ' in index'
+        )
 
 
 class FileInaccessibleError(CannotFetchFileError):
     def __str__(self):
-        return '{!r}: all requests to server failed'.format(self.filename)
+        return f'{self.filename!r}: all requests to server failed'
